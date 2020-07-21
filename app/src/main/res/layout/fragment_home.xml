@@ -3,11 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.moodup.movies.ui.home.HomeFragment">
+    tools:context="com.moodup.movies.ui.home.HomeFragment"
+    android:orientation="vertical"
+    android:layout_weight="10">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="@dimen/margin_home"/>
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/movies_recycler_view"
     android:scrollbars="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="0dp"
+    android:layout_weight="9"/>
+
+
 </LinearLayout>

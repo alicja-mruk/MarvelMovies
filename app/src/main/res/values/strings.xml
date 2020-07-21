@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MarvelMovies</string>
-    <string name = "api_key">v3d3ce5daa8ec0f7c17afc52bb68f15f7</string>
+    <string name="movie_picture">Movie Picture</string>
 </resources>
