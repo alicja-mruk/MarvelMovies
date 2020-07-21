@@ -19,7 +19,6 @@ class MovieRepository {
         val call = request.getMovies(setAndReturnDataQueries())
 
         call.enqueue(object : Callback<List<Movie>> {
-
             override fun onResponse(call: Call<List<Movie>>, response: retrofit2.Response<List<Movie>>) {
                 if (response.isSuccessful) {
                     moviesResponseLiveData.postValue(response.body())

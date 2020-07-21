@@ -14,9 +14,9 @@ import com.moodup.movies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-    private lateinit var viewModel: MovieViewModel
-    private lateinit var adapter: MoviesAdapter
-    private lateinit var movies: List<Movie>
+    private  var viewModel: MovieViewModel? = null
+    private  var adapter: MoviesAdapter? = null
+    private  var movies: List<Movie>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +32,15 @@ class HomeFragment : Fragment() {
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
-
-        movies_recycler_view.apply {
-            adapter = MoviesAdapter(movies)
-        }
-
-        getMovies()
+//        getMovies()
+//
+//        adapter = movies?.let { MoviesAdapter(it) }
+//        movies_recycler_view.adapter = adapter
     }
 
-    private fun getMovies() {
-        viewModel.getMoviesResponseLiveData().observe(viewLifecycleOwner, Observer {
-
-            movies = it
-        })
-    }
+//    private fun getMovies() {
+//        viewModel?.getMoviesResponseLiveData()?.observe(viewLifecycleOwner, Observer {
+//            movies = it
+//        })
+//    }
 }
