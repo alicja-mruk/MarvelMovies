@@ -11,7 +11,6 @@ import com.example.movies.R
 import com.moodup.movies.model.Movie
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
     private  var viewModel: MovieViewModel? = null
@@ -32,6 +31,10 @@ class HomeFragment : Fragment() {
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
+
+        viewModel?.getMoviesResponseLiveData()?.observe(viewLifecycleOwner, Observer {
+            movies = it
+        })
 //        getMovies()
 //
 //        adapter = movies?.let { MoviesAdapter(it) }

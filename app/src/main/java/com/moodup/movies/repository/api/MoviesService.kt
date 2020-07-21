@@ -7,6 +7,6 @@ import retrofit2.http.QueryMap
 
 
 interface MoviesService {
-    @GET("v1/public/comics/?ts=1")
+    @GET("v1/public/comics?ts=1")
     fun getMovies(@QueryMap options :Map<String, String>): Call<List<Movie>>
 }
