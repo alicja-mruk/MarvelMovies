@@ -1,8 +1,8 @@
 package com.moodup.movies.model
 
-data class Creators(
+data class Characters(
     val available: Int,
     val collectionURI: String,
-    val items: List<Creator>,
+    val items: List<Item>,
     val returned: Int
 )

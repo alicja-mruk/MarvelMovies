@@ -1,6 +1,7 @@
 package com.moodup.movies.repository.api
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.moodup.movies.model.Movie
@@ -18,18 +19,19 @@ class MovieRepository {
         val request = ServiceBuilder.buildService(MoviesService::class.java)
         val call = request.getMovies(setAndReturnDataQueries())
 
-        call.enqueue(object : Callback<List<Movie>> {
+        call.enqueue(object : Callback<Movie> {
             override fun onResponse(
-                call: Call<List<Movie>>,
-                response: retrofit2.Response<List<Movie>>
+                call: Call<Movie>,
+                response: retrofit2.Response<Movie>
             ) {
                 if (response.isSuccessful) {
-                    moviesResponseLiveData.postValue(response.body())
+                   Log.d("Response", response.body().toString())
+//                   moviesResponseLiveData.postValue(response.body())
                 }
             }
 
-            override fun onFailure(call: Call<List<Movie>>, t: Throwable) {
-                moviesResponseLiveData.postValue(null)
+            override fun onFailure(call: Call<Movie>, t: Throwable) {
+//                moviesResponseLiveData.postValue(null)
             }
 
         })
@@ -41,16 +43,13 @@ class MovieRepository {
 
     private fun setAndReturnDataQueries(): MutableMap<String, String> {
         val data: MutableMap<String, String> = HashMap()
-        data["apikey"] = apikey
-        data["hash"] = hash
+        data["limit"]= limit
 //        data["limit"] = limit
         return data
     }
 
     companion object {
-        private const val apikey = "3d3ce5daa8ec0f7c17afc52bb68f15f7"
-        private const val hash = "a45bdb0bf57b06e72ad4c2c5854e2843"
-//        private const val limit = "50"
+        private const val limit = "50"
     }
 
 

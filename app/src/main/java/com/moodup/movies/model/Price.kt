@@ -1,6 +1,6 @@
 package com.moodup.movies.model
 
-data class Price (
-    val price: Int,
+data class Price(
+    val price: Double,
     val type: String
 )
