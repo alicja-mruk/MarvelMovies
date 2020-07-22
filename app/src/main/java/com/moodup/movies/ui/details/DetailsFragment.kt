@@ -14,7 +14,9 @@ import kotlinx.android.synthetic.main.fragment_details.movie_title
 import kotlinx.android.synthetic.main.movie_row.*
 
 class DetailsFragment : Fragment() {
-
+companion object{
+    const val MOVIE_KEY = "MOVIE_KEY"
+}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,7 +27,7 @@ class DetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val movie = arguments?.getSerializable("MOVIE_KEY")
+        val movie = arguments?.getSerializable(MOVIE_KEY)
         setDataIntoFields(movie as Movie)
     }
 
@@ -40,4 +42,6 @@ class DetailsFragment : Fragment() {
                 .into(movie_picture_details)
 
     }
+
+
 }

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
@@ -84,7 +85,7 @@ class HomeFragment : Fragment() {
 
         adapter!!.onItemClick = {
             val bundle = Bundle()
-            bundle.putSerializable("MOVIE_KEY", it)
+            bundle.putSerializable(MOVIE_KEY, it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
     }
