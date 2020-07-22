@@ -9,12 +9,9 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
-import com.moodup.movies.model.Movies
-import com.moodup.movies.model.Result
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
@@ -54,6 +51,22 @@ class HomeFragment : Fragment() {
         movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
         movie_searchview.isIconified = false
         movie_searchview.clearFocus()
+
+        movie_searchview.setOnQueryTextListener(object :  SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel?.getFilteredMoviesResponseLiveData(query)?.observe(viewLifecycleOwner, Observer {
+                    setUpAdapter(it)
+                })
+
+                return false
+            }
+
+        })
 
     }
 

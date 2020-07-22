@@ -11,14 +11,15 @@ import retrofit2.Callback
 
 class MovieRepository {
     private var moviesResponseLiveData = MutableLiveData<List<Movie>>()
+    private var moviesFilteredResponseLiveData = MutableLiveData<List<Movie>>()
 
     init {
-        makeRequest()
+        getMovies()
     }
 
-    private fun makeRequest() {
+    private fun getMovies() {
         val request = ServiceBuilder.buildService(MoviesService::class.java)
-        val call = request.getMovies(setAndReturnDataQueries())
+        val call = request.getMovies()
 
         call.enqueue(object : Callback<Result> {
             override fun onResponse(
@@ -36,21 +37,36 @@ class MovieRepository {
             }
 
         })
+
+    }
+
+     fun getFilteredMovies(query:String){
+        val request = ServiceBuilder.buildService(MoviesService::class.java)
+        val call = request.getMoviesByTitle(query)
+
+        call.enqueue(object : Callback<Result> {
+            override fun onResponse(
+                call: Call<Result>,
+                response: retrofit2.Response<Result>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Response JSON", response.body().toString())
+                    moviesFilteredResponseLiveData.postValue(response.body()?.movies?.moviesList)
+                }
+            }
+
+            override fun onFailure(call: Call<Result>, t: Throwable) {
+                moviesFilteredResponseLiveData.postValue(null)
+            }
+
+        })
     }
 
     fun getMoviesLiveData(): LiveData<List<Movie>> {
         return moviesResponseLiveData
     }
-
-    private fun setAndReturnDataQueries(): MutableMap<String, String> {
-        val data: MutableMap<String, String> = HashMap()
-        data["limit"]= limit
-        return data
+    fun getFilteredMoviesLiveData() :LiveData<List<Movie>> {
+        return moviesFilteredResponseLiveData
     }
-
-    companion object {
-        private const val limit = "50"
-    }
-
 
 }
