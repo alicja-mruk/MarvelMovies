@@ -10,61 +10,17 @@ import retrofit2.Call
 import retrofit2.Callback
 
 class MovieRepository {
-    private var moviesResponseLiveData = MutableLiveData<List<Movie>>()
-    private var moviesFilteredResponseLiveData = MutableLiveData<List<Movie>>()
 
-    init {
-        getMovies()
-    }
-
-    private fun getMovies() {
+    fun getAllMovies(query : String): Call<Result> {
         val request = ServiceBuilder.buildService(MoviesService::class.java)
-        val call = request.getMovies()
+        var call : Call<Result>? = null
 
-        call.enqueue(object : Callback<Result> {
-            override fun onResponse(
-                call: Call<Result>,
-                response: retrofit2.Response<Result>
-            ) {
-                if (response.isSuccessful) {
-                   moviesResponseLiveData.postValue(response.body()?.movies?.moviesList)
-                }
-            }
+        call = if(query ==""){
+            request.getAllMovies()
+        }else{
+            request.getMoviesByTitle(query)
+        }
 
-            override fun onFailure(call: Call<Result>, t: Throwable) {
-                moviesResponseLiveData.postValue(null)
-            }
-
-        })
-
+        return call
     }
-
-     fun getFilteredMovies(query:String){
-        val request = ServiceBuilder.buildService(MoviesService::class.java)
-        val call = request.getMoviesByTitle(query)
-
-        call.enqueue(object : Callback<Result> {
-            override fun onResponse(
-                call: Call<Result>,
-                response: retrofit2.Response<Result>
-            ) {
-                if (response.isSuccessful) {
-                    moviesFilteredResponseLiveData.postValue(response.body()?.movies?.moviesList)
-                }
-            }
-
-            override fun onFailure(call: Call<Result>, t: Throwable) {
-                moviesFilteredResponseLiveData.postValue(null)
-            }
-
-        })
-    }
-
-    fun getMoviesLiveData(): LiveData<List<Movie>> {
-        return moviesResponseLiveData
-    }
-    fun getFilteredMoviesLiveData() :LiveData<List<Movie>> {
-        return moviesFilteredResponseLiveData
-    }
-
 }

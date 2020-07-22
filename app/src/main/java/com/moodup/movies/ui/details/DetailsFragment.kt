@@ -40,7 +40,6 @@ companion object{
          Glide.with(this)
                 .load("${movie.thumbnail.path}.${movie.thumbnail.extension}")
                 .into(movie_picture_details)
-
     }
 
 

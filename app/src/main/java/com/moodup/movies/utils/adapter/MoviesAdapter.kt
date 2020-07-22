@@ -13,15 +13,12 @@ import com.moodup.movies.model.Movie
 import kotlinx.android.synthetic.main.movie_row.view.*
 import java.util.*
 
-class MoviesAdapter(private val movies: List<Movie>) :
+class MoviesAdapter(private val _movies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    var onItemClick: ((Movie) -> Unit)? = null
-    private var moviesFilteredList = listOf<Movie>()
+    private var movies = _movies
 
-    init {
-        moviesFilteredList = movies
-    }
+    var onItemClick: ((Movie) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -52,6 +49,12 @@ class MoviesAdapter(private val movies: List<Movie>) :
                 movie_title.text = item.title
             }
         }
+    }
+
+    fun setAdapter(_movies:List<Movie>){
+        movies = _movies
+        notifyDataSetChanged()
+
     }
 
 }

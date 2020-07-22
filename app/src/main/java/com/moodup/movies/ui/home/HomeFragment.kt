@@ -1,12 +1,13 @@
 package com.moodup.movies.ui.home
 
+import android.app.ProgressDialog
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,7 @@ import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.progress_bar.*
 
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -44,9 +46,19 @@ class HomeFragment : Fragment() {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
 
-        viewModel?.getMoviesResponseLiveData()?.observe(viewLifecycleOwner, Observer {
+        viewModel?.allMovieLiveData?.observe(viewLifecycleOwner, Observer {
+
+            if (adapter == null) {
+                setUpAdapter(it)
+            } else {
+                adapter!!.setAdapter(it)
+            }
             setUpAdapter(it)
+            setSearchResults(it)
         })
+
+        viewModel?.getMovies("")
+
     }
 
 
@@ -55,17 +67,15 @@ class HomeFragment : Fragment() {
         movie_searchview.isIconified = false
         movie_searchview.clearFocus()
 
-        movie_searchview.setOnQueryTextListener(object :  SearchView.OnQueryTextListener {
+        movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(query: String): Boolean {
+                viewModel?.getMovies(query)
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel?.getFilteredMoviesResponseLiveData(query)?.observe(viewLifecycleOwner, Observer {
-                    setUpAdapter(it)
-                })
-
+                viewModel?.getMovies(query)
                 return false
             }
 
@@ -87,6 +97,16 @@ class HomeFragment : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(MOVIE_KEY, it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        }
+    }
+
+    private fun setSearchResults(list: List<Movie>) {
+        if (list.isEmpty()) {
+            movies_recycler_view.visibility = View.GONE
+            no_results_textView.visibility = View.VISIBLE
+        } else {
+            movies_recycler_view.visibility = View.VISIBLE
+            no_results_textView.visibility = View.GONE
         }
     }
 }
