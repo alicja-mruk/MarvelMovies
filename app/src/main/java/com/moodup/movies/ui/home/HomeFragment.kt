@@ -34,6 +34,8 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setUpSearchView()
+
         linearLayoutManager = LinearLayoutManager(activity)
         movies_recycler_view.layoutManager = linearLayoutManager
 
@@ -46,7 +48,13 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun setUpAdapter(movies : List<Movie>){
+    private fun setUpSearchView() {
+        movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
+        movie_searchview.isIconified = false
+        movie_searchview.clearFocus()
+    }
+
+    private fun setUpAdapter(movies: List<Movie>) {
         adapter = MoviesAdapter(movies)
         movies_recycler_view.adapter = adapter
         movies_recycler_view.addItemDecoration(
