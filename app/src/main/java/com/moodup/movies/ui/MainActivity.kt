@@ -1,14 +1,34 @@
 package com.moodup.movies.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movies.R
-import com.moodup.movies.viewmodel.MovieViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navFragment))
+        val navController = findNavController(R.id.navFragment)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        if (!findNavController(R.id.navFragment).navigateUp()) finish()
+        return true
     }
 }

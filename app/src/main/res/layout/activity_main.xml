@@ -9,7 +9,7 @@
     android:layout_margin="@dimen/margin_home">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/navFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
