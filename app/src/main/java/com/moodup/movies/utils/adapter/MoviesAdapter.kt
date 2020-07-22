@@ -3,6 +3,7 @@ package com.moodup.movies.utils.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import java.util.*
 class MoviesAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
+    var onItemClick: ((Movie) -> Unit)? = null
     private var moviesFilteredList = listOf<Movie>()
 
     init {
@@ -33,7 +35,15 @@ class MoviesAdapter(private val movies: List<Movie>) :
         holder.bindData(movies[position])
     }
 
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(movies[adapterPosition])
+            }
+        }
+
         fun bindData(item: Movie) {
             with(itemView) {
                 Glide.with(context)
@@ -43,6 +53,5 @@ class MoviesAdapter(private val movies: List<Movie>) :
             }
         }
     }
-
 
 }

@@ -2,4 +2,8 @@
     <string name="app_name">MarvelMovies</string>
     <string name="movie_picture">Movie Picture</string>
     <string name="search_for_a_movie">Search a movie…</string>
+    <string name="format">Format</string>
+    <string name="page_count">Page Count</string>
+    <string name ="description">Description</string>
+    <string name="details">Details</string>
 </resources>

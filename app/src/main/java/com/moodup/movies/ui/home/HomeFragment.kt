@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
@@ -54,7 +57,7 @@ class HomeFragment : Fragment() {
 
         movie_searchview.setOnQueryTextListener(object :  SearchView.OnQueryTextListener {
 
-            override fun onQueryTextChange(newText: String): Boolean {
+            override fun onQueryTextChange(query: String): Boolean {
                 return false
             }
 
@@ -79,5 +82,11 @@ class HomeFragment : Fragment() {
             ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
                 .build()
         )
+
+        adapter!!.onItemClick = {
+            val bundle = Bundle()
+            bundle.putSerializable(MOVIE_KEY, it)
+            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+        }
     }
 }
