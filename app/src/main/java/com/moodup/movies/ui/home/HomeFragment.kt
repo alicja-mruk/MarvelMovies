@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,10 +49,12 @@ class HomeFragment : Fragment() {
         })
     }
 
+
     private fun setUpSearchView() {
         movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
         movie_searchview.isIconified = false
         movie_searchview.clearFocus()
+
     }
 
     private fun setUpAdapter(movies: List<Movie>) {

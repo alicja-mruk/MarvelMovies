@@ -3,16 +3,23 @@ package com.moodup.movies.utils.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
-import com.moodup.movies.model.Result
 import kotlinx.android.synthetic.main.movie_row.view.*
+import java.util.*
 
-class MoviesAdapter(private val movies: List<Movie>)
-    : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter(private val movies: List<Movie>) :
+    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
+    private var moviesFilteredList = listOf<Movie>()
+
+    init {
+        moviesFilteredList = movies
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,7 +30,7 @@ class MoviesAdapter(private val movies: List<Movie>)
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MoviesAdapter.ViewHolder, position: Int) {
-       holder.bindData(movies[position])
+        holder.bindData(movies[position])
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,5 +43,6 @@ class MoviesAdapter(private val movies: List<Movie>)
             }
         }
     }
+
 
 }
