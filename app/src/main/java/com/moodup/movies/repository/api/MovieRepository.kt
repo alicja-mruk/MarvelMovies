@@ -27,7 +27,6 @@ class MovieRepository {
                 response: retrofit2.Response<Result>
             ) {
                 if (response.isSuccessful) {
-                   Log.d("Response JSON", response.body().toString())
                    moviesResponseLiveData.postValue(response.body()?.movies?.moviesList)
                 }
             }
@@ -50,7 +49,6 @@ class MovieRepository {
                 response: retrofit2.Response<Result>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("Response JSON", response.body().toString())
                     moviesFilteredResponseLiveData.postValue(response.body()?.movies?.moviesList)
                 }
             }
