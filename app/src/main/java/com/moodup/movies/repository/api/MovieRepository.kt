@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.moodup.movies.model.Movie
+import com.moodup.movies.model.Result
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -19,19 +20,19 @@ class MovieRepository {
         val request = ServiceBuilder.buildService(MoviesService::class.java)
         val call = request.getMovies(setAndReturnDataQueries())
 
-        call.enqueue(object : Callback<Movie> {
+        call.enqueue(object : Callback<Result> {
             override fun onResponse(
-                call: Call<Movie>,
-                response: retrofit2.Response<Movie>
+                call: Call<Result>,
+                response: retrofit2.Response<Result>
             ) {
                 if (response.isSuccessful) {
-                   Log.d("Response", response.body().toString())
-//                   moviesResponseLiveData.postValue(response.body())
+                   Log.d("Response JSON", response.body().toString())
+                   moviesResponseLiveData.postValue(response.body()?.movies?.moviesList)
                 }
             }
 
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
-//                moviesResponseLiveData.postValue(null)
+            override fun onFailure(call: Call<Result>, t: Throwable) {
+                moviesResponseLiveData.postValue(null)
             }
 
         })
@@ -44,7 +45,6 @@ class MovieRepository {
     private fun setAndReturnDataQueries(): MutableMap<String, String> {
         val data: MutableMap<String, String> = HashMap()
         data["limit"]= limit
-//        data["limit"] = limit
         return data
     }
 

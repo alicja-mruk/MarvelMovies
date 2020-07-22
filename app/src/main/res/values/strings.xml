@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MarvelMovies</string>
     <string name="movie_picture">Movie Picture</string>
+    <string name="search_for_a_movie">Search for a movie</string>
 </resources>

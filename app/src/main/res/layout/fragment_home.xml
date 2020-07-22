@@ -8,6 +8,8 @@
     android:layout_weight="10">
 
     <SearchView
+        android:id="@+id/movie_searchview"
+        android:hint="@string/search_for_a_movie"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

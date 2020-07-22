@@ -1,5 +1,6 @@
 package com.moodup.movies.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +8,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.model.Movies
+import com.moodup.movies.model.Result
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private var viewModel: MovieViewModel? = null
     private var adapter: MoviesAdapter? = null
-    private var movies: List<Movie>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,15 +34,26 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = movies?.let { MoviesAdapter(it) }
+        linearLayoutManager = LinearLayoutManager(activity)
+        movies_recycler_view.layoutManager = linearLayoutManager
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
 
         viewModel?.getMoviesResponseLiveData()?.observe(viewLifecycleOwner, Observer {
-//            movies = it as List<Movie>?
-            movies_recycler_view.adapter = adapter
+            setUpAdapter(it)
         })
+    }
+
+    private fun setUpAdapter(movies : List<Movie>){
+        adapter = MoviesAdapter(movies)
+        movies_recycler_view.adapter = adapter
+        movies_recycler_view.addItemDecoration(
+            HorizontalDividerItemDecoration.Builder(context).color(
+                Color.DKGRAY
+            ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                .build()
+        )
     }
 }

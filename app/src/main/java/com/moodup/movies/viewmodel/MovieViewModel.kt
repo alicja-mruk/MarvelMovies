@@ -3,6 +3,7 @@ package com.moodup.movies.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.moodup.movies.model.Movie
+import com.moodup.movies.model.Result
 import com.moodup.movies.repository.api.MovieRepository
 
 class MovieViewModel : ViewModel() {

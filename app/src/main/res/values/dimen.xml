@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_home">10dp</dimen>
+    <dimen name="divider">0.5dp</dimen>
+    <dimen name ="leftmargin">3dp</dimen>
+    <dimen name="rightmargin">3dp</dimen>
 </resources>

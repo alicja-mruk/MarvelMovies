@@ -66,6 +66,8 @@ dependencies {
 
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
-    
+
+    //recyclerview divider
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
 }
