@@ -1,12 +1,13 @@
 package com.moodup.movies.ui.home
 
-import android.app.ProgressDialog
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,7 +21,7 @@ import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.progress_bar.*
+
 
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -38,9 +39,7 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpSearchView()
-
-        linearLayoutManager = LinearLayoutManager(activity)
-        movies_recycler_view.layoutManager = linearLayoutManager
+        setUpRecyclerView()
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
@@ -61,10 +60,15 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun setUpRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(activity)
+        movies_recycler_view.layoutManager = linearLayoutManager
+    }
 
     private fun setUpSearchView() {
         movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
         movie_searchview.isIconified = false
+        movie_searchview.setBackgroundColor(Color.LTGRAY)
         movie_searchview.clearFocus()
 
         movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -104,9 +108,11 @@ class HomeFragment : Fragment() {
         if (list.isEmpty()) {
             movies_recycler_view.visibility = View.GONE
             no_results_textView.visibility = View.VISIBLE
+            progressBar?.visibility = View.VISIBLE
         } else {
             movies_recycler_view.visibility = View.VISIBLE
             no_results_textView.visibility = View.GONE
+            progressBar?.visibility = View.GONE
         }
     }
 }
