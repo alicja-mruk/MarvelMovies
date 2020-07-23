@@ -7,4 +7,9 @@
     <string name ="description">Description</string>
     <string name="details">Details</string>
     <string name="no_results">No Results</string>
+    <string name="error">Error occurred</string>
+    <string name="no_title">Empty title</string>
+    <string name="no_description">Empty description</string>
+    <string name="no_format">Empty format</string>
+    <string name="no_page_count">Empty page count</string>
 </resources>

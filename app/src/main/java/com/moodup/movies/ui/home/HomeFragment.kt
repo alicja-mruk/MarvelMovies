@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
@@ -45,15 +43,25 @@ class HomeFragment : Fragment() {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
 
-        viewModel?.allMovieLiveData?.observe(viewLifecycleOwner, Observer {
+        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
+            updateAdapter(it)
+        })
 
-            if (adapter == null) {
-                setUpAdapter(it)
-            } else {
-                adapter!!.setAdapter(it)
+        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                UIState.LOADING -> {
+                    showProgressBar()
+                }
+                UIState.ON_ERROR -> {
+                    showOnError()
+                }
+                UIState.ON_RESULT -> {
+                    hideProgressBar()
+                }
+                UIState.ON_EMPTY_RESULTS -> {
+                    showEmptyResults()
+                }
             }
-            setUpAdapter(it)
-            setSearchResults(it)
         })
 
         viewModel?.getMovies("")
@@ -104,15 +112,38 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setSearchResults(list: List<Movie>) {
-        if (list.isEmpty()) {
-            movies_recycler_view.visibility = View.GONE
-            no_results_textView.visibility = View.VISIBLE
-            progressBar?.visibility = View.VISIBLE
+    private fun updateAdapter(movies: List<Movie>) {
+        setUpAdapter(movies)
+
+        if (adapter == null) {
+            setUpAdapter(movies)
         } else {
-            movies_recycler_view.visibility = View.VISIBLE
-            no_results_textView.visibility = View.GONE
-            progressBar?.visibility = View.GONE
+            adapter!!.setAdapter(movies)
         }
+    }
+
+    private fun showEmptyResults() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showOnError() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        results_textView.text = R.string.error.toString()
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        movies_recycler_view.visibility = View.VISIBLE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 }

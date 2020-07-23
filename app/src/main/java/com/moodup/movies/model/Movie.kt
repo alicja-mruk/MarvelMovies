@@ -6,8 +6,8 @@ import java.io.Serializable
 data class Movie(
     val id: Int,
     val thumbnail: Thumbnail,
-    val title: String,
-    val description: String,
-    val format: String,
-    val pageCount: Int
+    val title: String?,
+    val description: String?,
+    val format: String?,
+    val pageCount: Int?
 ) : Serializable
