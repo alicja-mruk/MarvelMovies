@@ -38,12 +38,13 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpSearchView()
-        setUpRecyclerView()
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
+
+        setUpSearchView()
+        setUpRecyclerView()
 
         observeLiveData()
 
@@ -80,6 +81,7 @@ class HomeFragment : Fragment() {
         movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(query: String): Boolean {
+                Log.d("STATE", "searchbar called on text change")
                 viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
                 viewModel?.getMovies(0, query)
                 adapter?.clearMoviesList()
@@ -87,6 +89,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
+                Log.d("STATE", "searchbar called on submit text")
                 viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
                 viewModel?.getMovies(0, query)
                 adapter?.clearMoviesList()
@@ -117,12 +120,15 @@ class HomeFragment : Fragment() {
 
     private fun observeLiveData() {
         viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
+            Log.d("STATE", "observer live data called ${it.size}")
             updateAdapter(it)
             viewModel?.isDataLoading = false
         })
 
         viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+            Log.d("STATE", state.toString())
             when (state) {
+
                 UIState.LOADING -> {
                     showProgressBar()
                 }
