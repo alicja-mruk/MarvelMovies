@@ -4,4 +4,5 @@
     <dimen name="divider">0.5dp</dimen>
     <dimen name ="leftmargin">3dp</dimen>
     <dimen name="rightmargin">3dp</dimen>
+    <dimen name="footer_spinner_height">46dp</dimen>
 </resources>
