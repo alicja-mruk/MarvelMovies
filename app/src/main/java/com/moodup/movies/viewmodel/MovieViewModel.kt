@@ -6,29 +6,31 @@ import com.moodup.movies.model.Movie
 import com.moodup.movies.model.Result
 import com.moodup.movies.repository.api.call.MovieRepository
 import com.moodup.movies.state.UIState
+import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.http.Query
 
 class MovieViewModel : ViewModel() {
     private var movieRepository: MovieRepository = MovieRepository()
 
-    var isDataLoading:Boolean = false
+    var isDataLoading: Boolean = false
+    var totalResults: Int = 9999
     var movieLiveData = MutableLiveData<List<Movie>>()
     var UIstateLiveData = MutableLiveData<UIState>(UIState.INITIALIZED)
 
-    fun getMovies(currentPageNumber: Int , query : String) {
-
-            movieRepository.getAllMovies(currentPageNumber, query).enqueue(object : Callback<Result> {
+    fun getMovies(currentPageNumber: Int, query: String) {
+        movieRepository.getAllMovies(currentPageNumber, query)
+            .enqueue(object : Callback<Result> {
                 override fun onResponse(
                     call: Call<Result>,
                     response: retrofit2.Response<Result>
                 ) {
                     if (response.isSuccessful) {
-                        response.body()?.movies?.moviesList?.let{
-                            if(it.isEmpty()){
+                        totalResults = response.body()?.movies!!.total
+                        response.body()?.movies?.moviesList?.let {
+                            if (it.isEmpty() && currentPageNumber == 0) {
                                 UIstateLiveData.postValue(UIState.ON_EMPTY_RESULTS)
-                            }else{
+                            } else {
                                 movieLiveData.postValue(response.body()?.movies?.moviesList)
                                 UIstateLiveData.postValue(UIState.ON_RESULT)
                             }
@@ -41,6 +43,10 @@ class MovieViewModel : ViewModel() {
                     UIstateLiveData.postValue(UIState.ON_ERROR)
                 }
             })
-        }
 
+    }
+
+    fun checkIfThereIsScrollingPossible(totalItemCount: Int): Boolean {
+        return (totalResults < totalItemCount)
+    }
 }

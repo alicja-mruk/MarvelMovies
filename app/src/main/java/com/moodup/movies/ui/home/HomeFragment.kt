@@ -53,121 +53,129 @@ class HomeFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         movies_recycler_view.layoutManager = linearLayoutManager
 
-        movies_recycler_view.addOnScrollListener (object: RecyclerView.OnScrollListener(){
+        movies_recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val totalItemCount: Int = linearLayoutManager.itemCount
                 val lastVisibleItem: Int = linearLayoutManager.findLastVisibleItemPosition()
 
-                if (!viewModel?.isDataLoading!!  && lastVisibleItem == totalItemCount - 1) {
-                    viewModel?.isDataLoading = true
-                    adapter?.showFooterProgressBar()
-                    viewModel?.getMovies(totalItemCount+1, movie_searchview.query.toString())
+                viewModel?.let {
+                    if (!it.isDataLoading && lastVisibleItem == totalItemCount - 1) {
+                        it.isDataLoading = true
+
+                        if (it.checkIfThereIsScrollingPossible(totalItemCount)) {
+                            adapter?.showFooterProgressBar()
+                            it.getMovies(totalItemCount + 1, movie_searchview.query.toString())
+                        }
+                    }
                 }
             }
         })
     }
 
-        private fun setUpSearchView() {
-            movie_searchview.clearFocus()
+    private fun setUpSearchView() {
+        movie_searchview.clearFocus()
 
-            movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                override fun onQueryTextChange(query: String): Boolean {
-                    //todo: viewModel?.getMovies(query)
-                    return false
-                }
-
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    //viewModel?.getMovies(query)
-                    return false
-                }
-
-            })
-
-        }
-
-        private fun setUpAdapter(movies: List<Movie>) {
-            adapter = MoviesAdapter()
-            adapter?.updateAdapter(movies)
-            movies_recycler_view.adapter = adapter
-            movies_recycler_view.addItemDecoration(
-                HorizontalDividerItemDecoration.Builder(context).color(
-                    Color.DKGRAY
-                ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                    .build()
-            )
-
-            adapter!!.onItemClick = {
-                val bundle = Bundle()
-                bundle.putSerializable(MOVIE_KEY, it)
-                findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
+            override fun onQueryTextChange(query: String): Boolean {
+                viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
+                viewModel?.getMovies(0, query)
+                adapter?.clearMoviesList()
+                return false
             }
-        }
 
-        private fun observeLiveData() {
-            viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
-                updateAdapter(it)
-                viewModel?.isDataLoading = false
-            })
-
-            viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
-                when (state) {
-                    UIState.LOADING -> {
-                        showProgressBar()
-                    }
-                    UIState.ON_ERROR -> {
-                        showOnError()
-                    }
-                    UIState.ON_RESULT -> {
-                        hideProgressBar()
-                    }
-                    UIState.ON_EMPTY_RESULTS -> {
-                        showEmptyResults()
-                    }
-                    UIState.INITIALIZED -> {
-                        viewModel?.UIstateLiveData?.postValue (UIState.LOADING)
-                        viewModel?.getMovies(0, "")
-                    }
-
-                }
-            })
-        }
-
-        private fun updateAdapter(movies: List<Movie>) {
-            //setUpAdapter(movies)
-            //todo: on details page and on back reset of adapter?
-
-            if (adapter == null) {
-                setUpAdapter(movies)
-            } else {
-                adapter!!.updateAdapter(movies)
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
+                viewModel?.getMovies(0, query)
+                adapter?.clearMoviesList()
+                return false
             }
-        }
 
-        private fun showEmptyResults() {
-            movies_recycler_view.visibility = View.GONE
-            results_textView.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
-        }
+        })
 
-        private fun showOnError() {
-            movies_recycler_view.visibility = View.GONE
-            results_textView.visibility = View.VISIBLE
-            results_textView.text = R.string.error.toString()
-            progressBar.visibility = View.GONE
-        }
+    }
 
-        private fun showProgressBar() {
-            movies_recycler_view.visibility = View.GONE
-            results_textView.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        }
+    private fun setUpAdapter(movies: List<Movie>) {
+        adapter = MoviesAdapter()
+        adapter?.updateAdapter(movies)
+        movies_recycler_view.adapter = adapter
+        movies_recycler_view.addItemDecoration(
+            HorizontalDividerItemDecoration.Builder(context).color(
+                Color.DKGRAY
+            ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                .build()
+        )
 
-        private fun hideProgressBar() {
-            movies_recycler_view.visibility = View.VISIBLE
-            results_textView.visibility = View.GONE
-            progressBar.visibility = View.GONE
+        adapter!!.onItemClick = {
+            val bundle = Bundle()
+            bundle.putSerializable(MOVIE_KEY, it)
+            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
     }
+
+    private fun observeLiveData() {
+        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
+            updateAdapter(it)
+            viewModel?.isDataLoading = false
+        })
+
+        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                UIState.LOADING -> {
+                    showProgressBar()
+                }
+                UIState.ON_ERROR -> {
+                    showOnError()
+                }
+                UIState.ON_RESULT -> {
+                    hideProgressBar()
+                }
+                UIState.ON_EMPTY_RESULTS -> {
+                    showEmptyResults()
+                }
+                UIState.INITIALIZED -> {
+                    viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
+                    viewModel?.getMovies(0, "")
+                }
+            }
+        })
+    }
+
+    private fun updateAdapter(movies: List<Movie>) {
+        //setUpAdapter(movies)
+        //todo: on details page and on back reset of adapter?
+
+        if (adapter == null) {
+            setUpAdapter(movies)
+        } else {
+            adapter!!.updateAdapter(movies)
+        }
+    }
+
+    private fun showEmptyResults() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showOnError() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        results_textView.text = R.string.error.toString()
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        movies_recycler_view.visibility = View.VISIBLE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+    }
+}

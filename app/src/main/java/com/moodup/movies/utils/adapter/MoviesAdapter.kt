@@ -95,6 +95,10 @@ class MoviesAdapter() :
         }
     }
 
+    fun clearMoviesList(){
+        movies.clear()
+    }
+
 
     companion object {
         const val TYPE_FOOTER: Int = 0
