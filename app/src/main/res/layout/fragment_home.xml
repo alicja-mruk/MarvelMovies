@@ -42,5 +42,6 @@
         android:textAlignment="center"
         android:gravity="center_horizontal"
         android:paddingTop="60dp"
-        android:visibility="gone"/>
+        android:visibility="gone"/>/>
+
 </LinearLayout>

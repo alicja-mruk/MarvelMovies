@@ -1,4 +1,4 @@
-package com.moodup.movies.repository.api
+package com.moodup.movies.repository.api.call
 
 
 import okhttp3.OkHttpClient
