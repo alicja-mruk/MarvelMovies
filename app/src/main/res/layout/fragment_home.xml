@@ -13,7 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginBottom="@dimen/margin_home"/>
+        android:layout_marginBottom="@dimen/margin_home"
+        android:queryHint="@string/search_for_a_movie"
+        android:iconifiedByDefault="false"
+        android:background="@android:color/holo_green_light"/>
 
 <androidx.recyclerview.widget.RecyclerView
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

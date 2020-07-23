@@ -13,14 +13,13 @@ import retrofit2.http.Query
 class MovieViewModel : ViewModel() {
     private var movieRepository: MovieRepository = MovieRepository()
 
-    var totalItemCount : Int = 0
     var isDataLoading:Boolean = false
     var movieLiveData = MutableLiveData<List<Movie>>()
     var UIstateLiveData = MutableLiveData<UIState>(UIState.INITIALIZED)
 
-    fun getMovies(totalPageNumber: Int , query : String) {
+    fun getMovies(currentPageNumber: Int , query : String) {
 
-            movieRepository.getAllMovies(totalPageNumber, query).enqueue(object : Callback<Result> {
+            movieRepository.getAllMovies(currentPageNumber, query).enqueue(object : Callback<Result> {
                 override fun onResponse(
                     call: Call<Result>,
                     response: retrofit2.Response<Result>

@@ -70,15 +70,12 @@ class HomeFragment : Fragment() {
     }
 
         private fun setUpSearchView() {
-            movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
-            movie_searchview.isIconified = false
-            movie_searchview.setBackgroundColor(Color.LTGRAY)
             movie_searchview.clearFocus()
 
             movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
                 override fun onQueryTextChange(query: String): Boolean {
-                    //viewModel?.getMovies(query)
+                    //todo: viewModel?.getMovies(query)
                     return false
                 }
 
