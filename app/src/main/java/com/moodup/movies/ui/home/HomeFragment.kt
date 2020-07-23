@@ -43,26 +43,7 @@ class HomeFragment : Fragment() {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
 
-        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
-            updateAdapter(it)
-        })
-
-        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                UIState.LOADING -> {
-                    showProgressBar()
-                }
-                UIState.ON_ERROR -> {
-                    showOnError()
-                }
-                UIState.ON_RESULT -> {
-                    hideProgressBar()
-                }
-                UIState.ON_EMPTY_RESULTS -> {
-                    showEmptyResults()
-                }
-            }
-        })
+        observeLiveData()
 
         viewModel?.getMovies("")
 
@@ -110,6 +91,29 @@ class HomeFragment : Fragment() {
             bundle.putSerializable(MOVIE_KEY, it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
+    }
+
+    private fun observeLiveData(){
+        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
+            updateAdapter(it)
+        })
+
+        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                UIState.LOADING -> {
+                    showProgressBar()
+                }
+                UIState.ON_ERROR -> {
+                    showOnError()
+                }
+                UIState.ON_RESULT -> {
+                    hideProgressBar()
+                }
+                UIState.ON_EMPTY_RESULTS -> {
+                    showEmptyResults()
+                }
+            }
+        })
     }
 
     private fun updateAdapter(movies: List<Movie>) {
