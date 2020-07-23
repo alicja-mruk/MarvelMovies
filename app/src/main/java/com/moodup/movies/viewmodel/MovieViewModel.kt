@@ -13,7 +13,7 @@ class MovieViewModel : ViewModel() {
     private var movieRepository: MovieRepository = MovieRepository()
 
     var movieLiveData = MutableLiveData<List<Movie>>()
-    var UIstateLiveData = MutableLiveData<UIState>()
+    var UIstateLiveData = MutableLiveData<UIState>(UIState.INITIALIZED)
 
     fun getMovies(query : String) {
         UIstateLiveData.postValue(UIState.LOADING)

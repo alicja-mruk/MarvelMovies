@@ -6,13 +6,13 @@ import retrofit2.Call
 
 class MovieRepository {
 
-    fun getAllMovies(query : String): Call<Result> {
+    fun getAllMovies(query: String): Call<Result> {
         val request = ServiceBuilder.buildService(MoviesService::class.java)
-        var call : Call<Result>? = null
+        var call: Call<Result>? = null
 
-        call = if(query ==""){
+        call = if (query == "") {
             request.getAllMovies()
-        }else{
+        } else {
             request.getMoviesByTitle(query)
         }
 

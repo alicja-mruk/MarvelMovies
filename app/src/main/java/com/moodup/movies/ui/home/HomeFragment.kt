@@ -45,8 +45,6 @@ class HomeFragment : Fragment() {
 
         observeLiveData()
 
-        viewModel?.getMovies("")
-
     }
 
     private fun setUpRecyclerView() {
@@ -93,7 +91,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
         viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
             updateAdapter(it)
         })
@@ -111,6 +109,9 @@ class HomeFragment : Fragment() {
                 }
                 UIState.ON_EMPTY_RESULTS -> {
                     showEmptyResults()
+                }
+                UIState.INITIALIZED -> {
+                    viewModel?.getMovies("")
                 }
             }
         })
