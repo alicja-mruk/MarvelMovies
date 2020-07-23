@@ -62,9 +62,7 @@ class HomeFragment : Fragment() {
 
                 if (!viewModel?.isDataLoading!!  && lastVisibleItem == totalItemCount - 1) {
                     viewModel?.isDataLoading = true
-                    Log.d("LIST", "Scrolled to the bottom of the list")
                     adapter?.showFooterProgressBar()
-                    // Scrolled to bottom. Do something here.
                     viewModel?.getMovies(totalItemCount+1, movie_searchview.query.toString())
                 }
             }
