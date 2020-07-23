@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,11 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -36,36 +37,36 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpSearchView()
-
-        linearLayoutManager = LinearLayoutManager(activity)
-        movies_recycler_view.layoutManager = linearLayoutManager
+        setUpRecyclerView()
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
         }
 
-        viewModel?.getMoviesResponseLiveData()?.observe(viewLifecycleOwner, Observer {
-            setUpAdapter(it)
-        })
+        observeLiveData()
+
     }
 
+    private fun setUpRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(activity)
+        movies_recycler_view.layoutManager = linearLayoutManager
+    }
 
     private fun setUpSearchView() {
         movie_searchview.queryHint = context?.getString(R.string.search_for_a_movie)
         movie_searchview.isIconified = false
+        movie_searchview.setBackgroundColor(Color.LTGRAY)
         movie_searchview.clearFocus()
 
-        movie_searchview.setOnQueryTextListener(object :  SearchView.OnQueryTextListener {
+        movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(query: String): Boolean {
+                viewModel?.getMovies(query)
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel?.getFilteredMoviesResponseLiveData(query)?.observe(viewLifecycleOwner, Observer {
-                    setUpAdapter(it)
-                })
-
+                viewModel?.getMovies(query)
                 return false
             }
 
@@ -88,5 +89,66 @@ class HomeFragment : Fragment() {
             bundle.putSerializable(MOVIE_KEY, it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
+    }
+
+    private fun observeLiveData() {
+        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
+            updateAdapter(it)
+        })
+
+        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                UIState.LOADING -> {
+                    showProgressBar()
+                }
+                UIState.ON_ERROR -> {
+                    showOnError()
+                }
+                UIState.ON_RESULT -> {
+                    hideProgressBar()
+                }
+                UIState.ON_EMPTY_RESULTS -> {
+                    showEmptyResults()
+                }
+                UIState.INITIALIZED -> {
+                    viewModel?.getMovies("")
+                }
+            }
+        })
+    }
+
+    private fun updateAdapter(movies: List<Movie>) {
+        setUpAdapter(movies)
+
+        if (adapter == null) {
+            setUpAdapter(movies)
+        } else {
+            adapter!!.setAdapter(movies)
+        }
+    }
+
+    private fun showEmptyResults() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showOnError() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.VISIBLE
+        results_textView.text = R.string.error.toString()
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        movies_recycler_view.visibility = View.GONE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        movies_recycler_view.visibility = View.VISIBLE
+        results_textView.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 }
