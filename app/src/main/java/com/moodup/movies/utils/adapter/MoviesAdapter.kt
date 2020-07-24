@@ -1,13 +1,14 @@
 package com.moodup.movies.utils.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
-import com.moodup.movies.model.Thumbnail
 import com.moodup.movies.utils.adapter.viewholder.BaseViewHolder
 import com.moodup.movies.utils.adapter.viewholder.FooterViewHolder
 import kotlinx.android.synthetic.main.movie_row.view.*
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.movie_row.view.*
 class MoviesAdapter() :
     RecyclerView.Adapter<BaseViewHolder>() {
     private var movies = ArrayList<Movie?>()
+    private var favouritesMoviesContainer = ArrayList<Movie?>()
     private var isProgressBarVisible = false
     var onItemClick: ((Movie) -> Unit)? = null
 
@@ -42,6 +44,12 @@ class MoviesAdapter() :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is RowViewHolder) {
             movies[position]?.let { holder.bindData(it) }
+
+            if (favouritesMoviesContainer.contains(movies[position])) {
+                holder.addToFavouriteListColorChange()
+            } else {
+                holder.removeFromFavouriteListColorChange()
+            }
         }
 
     }
@@ -50,8 +58,58 @@ class MoviesAdapter() :
         init {
             itemView.setOnClickListener {
                 movies[adapterPosition]?.let { it1 -> onItemClick?.invoke(it1) }
+
+            }
+
+            itemView.add_to_favourites_button?.setOnClickListener {
+                addOrRemoveFromFavouritesList(movies[adapterPosition])
             }
         }
+
+        private fun addOrRemoveFromFavouritesList(movie: Movie?) {
+            if (!favouritesMoviesContainer.contains(movie)) {
+                addToFavouritesList(movie)
+            } else {
+                removeFromFavouritesList(movie)
+            }
+        }
+
+        private fun addToFavouritesList(movie: Movie?) {
+            favouritesMoviesContainer.add(movie)
+            addToFavouriteListColorChange()
+            Toast.makeText(
+                itemView.context,
+                itemView.context.resources.getString(R.string.added),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        fun addToFavouriteListColorChange() {
+            itemView.add_to_favourites_button.text =
+                itemView.context.resources.getString(R.string.remove_from_favourites)
+            itemView.add_to_favourites_button.setBackgroundColor(Color.RED)
+        }
+
+        fun removeFromFavouriteListColorChange() {
+            itemView.add_to_favourites_button.text =
+                itemView.context.resources.getString(R.string.add_to_favourites)
+            itemView.add_to_favourites_button.setBackgroundColor(
+                itemView.context.resources.getColor(
+                    R.color.green
+                )
+            )
+        }
+
+        private fun removeFromFavouritesList(movie: Movie?) {
+            favouritesMoviesContainer.remove(movie)
+            removeFromFavouriteListColorChange()
+            Toast.makeText(
+                itemView.context,
+                itemView.context.resources.getString(R.string.removed),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
 
         fun bindData(item: Movie) {
             with(itemView) {
@@ -95,7 +153,7 @@ class MoviesAdapter() :
         }
     }
 
-    fun clearMoviesList(){
+    fun clearMoviesList() {
         movies.clear()
     }
 

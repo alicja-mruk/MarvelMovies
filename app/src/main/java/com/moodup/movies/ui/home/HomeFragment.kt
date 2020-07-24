@@ -18,6 +18,7 @@ import com.moodup.movies.model.Movie
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
+import com.moodup.movies.viewmodel.FavouritesViewModel
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var viewModel: MovieViewModel? = null
+    private var favouritesViewModel : FavouritesViewModel? = null
     private var adapter: MoviesAdapter? = null
 
     override fun onCreateView(
@@ -41,6 +43,7 @@ class HomeFragment : Fragment() {
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
+            favouritesViewModel = ViewModelProvider(it).get(FavouritesViewModel::class.java)
         }
 
         setUpSearchView()
@@ -146,6 +149,10 @@ class HomeFragment : Fragment() {
                     viewModel?.getMovies(0, "")
                 }
             }
+        })
+
+        favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer{
+
         })
     }
 

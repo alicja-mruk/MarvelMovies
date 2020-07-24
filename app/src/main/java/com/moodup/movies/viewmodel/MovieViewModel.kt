@@ -47,6 +47,6 @@ class MovieViewModel : ViewModel() {
     }
 
     fun checkIfThereIsScrollingPossible(totalItemCount: Int): Boolean {
-        return (totalResults < totalItemCount)
+        return (totalResults > totalItemCount)
     }
 }
