@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
 import com.moodup.movies.utils.adapter.viewholder.BaseViewHolder
-import com.moodup.movies.utils.adapter.viewholder.FooterViewHolder
+import com.moodup.movies.utils.adapter.viewholder.movies.FooterViewHolder
 import kotlinx.android.synthetic.main.movie_row.view.*
 
 class MoviesAdapter() :
