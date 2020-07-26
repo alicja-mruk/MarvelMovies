@@ -19,6 +19,7 @@ class MoviesAdapter() :
     private var favouritesMoviesContainer = ArrayList<Movie?>()
     private var isProgressBarVisible = false
     var onItemClick: ((Movie) -> Unit)? = null
+    var onFavouritesButtonClick:((Movie) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -46,9 +47,9 @@ class MoviesAdapter() :
             movies[position]?.let { holder.bindData(it) }
 
             if (favouritesMoviesContainer.contains(movies[position])) {
-                holder.addToFavouriteListColorChange()
+                holder.addedToFavouritesColorChange()
             } else {
-                holder.removeFromFavouriteListColorChange()
+                holder.removedFromFavouritesColorChange()
             }
         }
 
@@ -62,35 +63,26 @@ class MoviesAdapter() :
             }
 
             itemView.add_to_favourites_button?.setOnClickListener {
-                addOrRemoveFromFavouritesList(movies[adapterPosition])
+                if (favouritesMoviesContainer.contains(movies[adapterPosition]) ){
+                    addedToFavouritesColorChange()
+                } else {
+                    removedFromFavouritesColorChange()
+                }
+
+                movies[adapterPosition]?.let{
+                    it2->onFavouritesButtonClick?.invoke(it2)
+                }
             }
+
         }
 
-        private fun addOrRemoveFromFavouritesList(movie: Movie?) {
-            if (!favouritesMoviesContainer.contains(movie)) {
-                addToFavouritesList(movie)
-            } else {
-                removeFromFavouritesList(movie)
-            }
-        }
-
-        private fun addToFavouritesList(movie: Movie?) {
-            favouritesMoviesContainer.add(movie)
-            addToFavouriteListColorChange()
-            Toast.makeText(
-                itemView.context,
-                itemView.context.resources.getString(R.string.added),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        fun addToFavouriteListColorChange() {
+       fun addedToFavouritesColorChange() {
             itemView.add_to_favourites_button.text =
                 itemView.context.resources.getString(R.string.remove_from_favourites)
             itemView.add_to_favourites_button.setBackgroundColor(Color.RED)
         }
 
-        fun removeFromFavouriteListColorChange() {
+         fun removedFromFavouritesColorChange() {
             itemView.add_to_favourites_button.text =
                 itemView.context.resources.getString(R.string.add_to_favourites)
             itemView.add_to_favourites_button.setBackgroundColor(
@@ -100,15 +92,6 @@ class MoviesAdapter() :
             )
         }
 
-        private fun removeFromFavouritesList(movie: Movie?) {
-            favouritesMoviesContainer.remove(movie)
-            removeFromFavouriteListColorChange()
-            Toast.makeText(
-                itemView.context,
-                itemView.context.resources.getString(R.string.removed),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
 
 
         fun bindData(item: Movie) {
@@ -125,6 +108,11 @@ class MoviesAdapter() :
     fun updateAdapter(_movies: List<Movie>) {
         hideFooterProgressBar()
         movies.addAll(_movies)
+        notifyDataSetChanged()
+    }
+
+    fun updateFavouritesList(_favourites : List<Movie?>){
+        favouritesMoviesContainer = _favourites as ArrayList<Movie?>
         notifyDataSetChanged()
     }
 

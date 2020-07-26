@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.moodup.movies.model.Movie
+import com.moodup.movies.state.AddedItemState
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
@@ -119,6 +121,10 @@ class HomeFragment : Fragment() {
             bundle.putSerializable(MOVIE_KEY, it)
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
+
+        adapter!!.onFavouritesButtonClick = {
+            favouritesViewModel?.addOrRemoveFromFavouritesList(it)
+        }
     }
 
     private fun observeLiveData() {
@@ -152,6 +158,18 @@ class HomeFragment : Fragment() {
         })
 
         favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer{
+            adapter?.updateFavouritesList(it)
+        })
+
+        favouritesViewModel?.addedState?.observe(viewLifecycleOwner, Observer{addedState->
+            when(addedState){
+                AddedItemState.ON_ADDED ->{
+                  Toast.makeText(context, R.string.added, Toast.LENGTH_SHORT).show()
+                }
+                AddedItemState.ON_REMOVED->{
+                    Toast.makeText(context, R.string.removed, Toast.LENGTH_SHORT).show()
+                }
+            }
 
         })
     }
@@ -191,4 +209,6 @@ class HomeFragment : Fragment() {
         results_textView.visibility = View.GONE
         progressBar.visibility = View.GONE
     }
+
+
 }

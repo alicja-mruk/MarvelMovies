@@ -51,6 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:mipmap/sym_def_app_icon"
                 android:contentDescription="@string/movie_picture" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

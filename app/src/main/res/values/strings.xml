@@ -17,4 +17,7 @@
     <string name="removed">Removed From Favourites List</string>
     <string name="added">Added To Favourites List</string>
     <string name="favourites_movies">Favourites Movies</string>
+    <string name="home">Home</string>
+    <string name="favourites">Favourites</string>
+    <string name="settings">Settings</string>
 </resources>

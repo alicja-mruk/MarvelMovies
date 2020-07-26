@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
 import com.moodup.movies.utils.adapter.viewholder.BaseViewHolder
@@ -11,7 +12,11 @@ import kotlinx.android.synthetic.main.card_view_favourites.view.*
 import kotlinx.android.synthetic.main.movie_row.view.*
 
 class FavouritesMoviesAdapter : RecyclerView.Adapter<BaseViewHolder>(){
-    private var favouritesMovies = ArrayList<Movie?>()
+    private var favouritesMovies = listOf<Movie?>()
+    fun setData(movies:List<Movie?>){
+        favouritesMovies = movies
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,7 +38,7 @@ class FavouritesMoviesAdapter : RecyclerView.Adapter<BaseViewHolder>(){
 
         fun bindData(item: Movie) {
             with(itemView) {
-                com.bumptech.glide.Glide.with(context)
+                Glide.with(context)
                     .load("${item.thumbnail.path}.${item.thumbnail.extension}")
                     .into(movie_favourites_picture)
                 movie_favourites_title.text = item.title

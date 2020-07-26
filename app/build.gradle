@@ -75,6 +75,7 @@ dependencies {
     //recyclerview divider
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
-    implementation 'android.arch.paging:runtime:1.0.0'
+    implementation 'android.arch.paging:runtime:1.0.1'
+    implementation 'com.android.support:design:28.0.0'
 
 }
