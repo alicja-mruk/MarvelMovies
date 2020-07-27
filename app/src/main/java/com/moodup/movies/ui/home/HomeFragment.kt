@@ -1,5 +1,6 @@
 package com.moodup.movies.ui.home
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
+import com.jakewharton.rxbinding2.widget.queryTextChanges
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedItemState
 import com.moodup.movies.state.UIState
@@ -24,12 +26,13 @@ import com.moodup.movies.viewmodel.FavouritesViewModel
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.concurrent.TimeUnit
 
 
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var viewModel: MovieViewModel? = null
-    private var favouritesViewModel : FavouritesViewModel? = null
+    private var favouritesViewModel: FavouritesViewModel? = null
     private var adapter: MoviesAdapter? = null
 
     override fun onCreateView(
@@ -50,7 +53,7 @@ class HomeFragment : Fragment() {
 
         setUpSearchView()
         setUpRecyclerView()
-
+        setUpAdapter()
         observeLiveData()
 
     }
@@ -80,41 +83,36 @@ class HomeFragment : Fragment() {
         })
     }
 
+    @SuppressLint("CheckResult")
     private fun setUpSearchView() {
         movie_searchview.clearFocus()
 
-        movie_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(query: String): Boolean {
-                Log.d("STATE", "searchbar called on text change")
+        movie_searchview.queryTextChanges().skip(2)
+            .map { it.toString() }
+            .doOnNext {
                 viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
-                viewModel?.getMovies(0, query)
-                adapter?.clearMoviesList()
-                return false
             }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                Log.d("STATE", "searchbar called on submit text")
-                viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
-                viewModel?.getMovies(0, query)
-                adapter?.clearMoviesList()
-                return false
+            .debounce(800, TimeUnit.MILLISECONDS)
+            .subscribe {
+                if (movie_searchview.hasFocus()) {
+                    viewModel?.onSearchQueryChanged(it)
+                }
             }
-
-        })
 
     }
 
-    private fun setUpAdapter(movies: List<Movie>) {
-        adapter = MoviesAdapter()
-        adapter?.updateAdapter(movies)
-        movies_recycler_view.adapter = adapter
-        movies_recycler_view.addItemDecoration(
-            HorizontalDividerItemDecoration.Builder(context).color(
-                Color.DKGRAY
-            ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                .build()
-        )
+    private fun setUpAdapter() {
+
+        viewModel?.let { viewModel ->
+            adapter = MoviesAdapter(viewModel, this)
+            movies_recycler_view.adapter = adapter
+            movies_recycler_view.addItemDecoration(
+                HorizontalDividerItemDecoration.Builder(context).color(
+                    Color.DKGRAY
+                ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                    .build()
+            )
+        }
 
         adapter!!.onItemClick = {
             val bundle = Bundle()
@@ -128,12 +126,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel?.movieLiveData?.observe(viewLifecycleOwner, Observer {
-            Log.d("STATE", "observer live data called ${it.size}")
-            updateAdapter(it)
-            viewModel?.isDataLoading = false
-        })
-
         viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
             Log.d("STATE", state.toString())
             when (state) {
@@ -157,32 +149,21 @@ class HomeFragment : Fragment() {
             }
         })
 
-        favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer{
+        favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer {
             adapter?.updateFavouritesList(it)
         })
 
-        favouritesViewModel?.addedState?.observe(viewLifecycleOwner, Observer{addedState->
-            when(addedState){
-                AddedItemState.ON_ADDED ->{
-                  Toast.makeText(context, R.string.added, Toast.LENGTH_SHORT).show()
+        favouritesViewModel?.addedState?.observe(viewLifecycleOwner, Observer { addedState ->
+            when (addedState) {
+                AddedItemState.ON_ADDED -> {
+                    Toast.makeText(context, R.string.added, Toast.LENGTH_SHORT).show()
                 }
-                AddedItemState.ON_REMOVED->{
+                AddedItemState.ON_REMOVED -> {
                     Toast.makeText(context, R.string.removed, Toast.LENGTH_SHORT).show()
                 }
             }
 
         })
-    }
-
-    private fun updateAdapter(movies: List<Movie>) {
-        //setUpAdapter(movies)
-        //todo: on details page and on back reset of adapter?
-
-        if (adapter == null) {
-            setUpAdapter(movies)
-        } else {
-            adapter!!.updateAdapter(movies)
-        }
     }
 
     private fun showEmptyResults() {
