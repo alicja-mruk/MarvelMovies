@@ -9,14 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
-import com.moodup.movies.utils.adapter.FavouritesMoviesAdapter
-import com.moodup.movies.viewmodel.FavouritesViewModel
-import com.moodup.movies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_favourites.*
 
 class FavouritesFragment : Fragment() {
-    private var favouritesViewModel : FavouritesViewModel? = null
-    private var adapter: FavouritesMoviesAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,20 +24,8 @@ class FavouritesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = FavouritesMoviesAdapter()
         favourites_grid_recycler_view.layoutManager =  GridLayoutManager(context,2)
-        favourites_grid_recycler_view.adapter = adapter
-
-        activity?.let {
-            favouritesViewModel = ViewModelProvider(it).get(FavouritesViewModel::class.java)
-        }
-        observeLiveData()
 
     }
-    private fun observeLiveData(){
-        favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer {
-            adapter?.setData(it)
-        })
 
-    }
 }

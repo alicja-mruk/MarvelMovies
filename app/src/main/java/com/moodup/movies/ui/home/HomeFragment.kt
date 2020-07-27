@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,12 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.jakewharton.rxbinding2.widget.queryTextChanges
-import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedItemState
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
-import com.moodup.movies.viewmodel.FavouritesViewModel
 import com.moodup.movies.viewmodel.MovieViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -32,7 +29,6 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var viewModel: MovieViewModel? = null
-    private var favouritesViewModel: FavouritesViewModel? = null
     private var adapter: MoviesAdapter? = null
 
     override fun onCreateView(
@@ -48,7 +44,6 @@ class HomeFragment : Fragment() {
 
         activity?.let {
             viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
-            favouritesViewModel = ViewModelProvider(it).get(FavouritesViewModel::class.java)
         }
 
         setUpSearchView()
@@ -120,9 +115,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
         }
 
-        adapter!!.onFavouritesButtonClick = {
-            favouritesViewModel?.addOrRemoveFromFavouritesList(it)
-        }
     }
 
     private fun observeLiveData() {
@@ -149,21 +141,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-        favouritesViewModel?.favouritesLiveData?.observe(viewLifecycleOwner, Observer {
-            adapter?.updateFavouritesList(it)
-        })
-
-        favouritesViewModel?.addedState?.observe(viewLifecycleOwner, Observer { addedState ->
-            when (addedState) {
-                AddedItemState.ON_ADDED -> {
-                    Toast.makeText(context, R.string.added, Toast.LENGTH_SHORT).show()
-                }
-                AddedItemState.ON_REMOVED -> {
-                    Toast.makeText(context, R.string.removed, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        })
     }
 
     private fun showEmptyResults() {
