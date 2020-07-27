@@ -12,4 +12,12 @@
     <string name="no_description">Empty description</string>
     <string name="no_format">Empty format</string>
     <string name="no_page_count">Empty page count</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="removed">Removed From Favourites List</string>
+    <string name="added">Added To Favourites List</string>
+    <string name="favourites_movies">Favourites Movies</string>
+    <string name="home">Home</string>
+    <string name="favourites">Favourites</string>
+    <string name="settings">Settings</string>
 </resources>
