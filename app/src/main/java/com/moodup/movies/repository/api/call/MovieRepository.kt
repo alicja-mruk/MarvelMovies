@@ -11,7 +11,7 @@ class MovieRepository {
             ServiceBuilder.buildService(
                 MoviesService::class.java
             )
-        var call: Call<Result>? = null
+        lateinit var call: Call<Result>
 
         call = if (query == "") {
             request.getAllMovies(totalItemCount)

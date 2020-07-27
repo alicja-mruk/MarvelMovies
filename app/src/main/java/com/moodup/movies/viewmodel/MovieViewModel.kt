@@ -15,7 +15,7 @@ class MovieViewModel : ViewModel() {
 
     var isDataLoading: Boolean = false
     var totalResults: Int = 9999
-    var movieLiveData = MutableLiveData<List<Movie>>()
+    var movieLiveData = MutableLiveData<List<Movie>>(listOf())
     var UIstateLiveData = MutableLiveData<UIState>(UIState.INITIALIZED)
 
     fun getMovies(currentPageNumber: Int, query: String) {
@@ -31,7 +31,8 @@ class MovieViewModel : ViewModel() {
                             if (it.isEmpty() && currentPageNumber == 0) {
                                 UIstateLiveData.postValue(UIState.ON_EMPTY_RESULTS)
                             } else {
-                                movieLiveData.postValue(response.body()?.movies?.moviesList)
+                                val movieList = response.body()?.movies?.moviesList
+                                updateMovieList(movieList)
                                 UIstateLiveData.postValue(UIState.ON_RESULT)
                             }
                         }
@@ -46,7 +47,24 @@ class MovieViewModel : ViewModel() {
 
     }
 
+    fun updateMovieList(newMovieList : List<Movie>?){
+        newMovieList?.let{ movies->
+            movieLiveData.value?.let{ currentMovieList->
+                val updatedMovieList = ArrayList(currentMovieList)
+                updatedMovieList.addAll(movies)
+                movieLiveData.postValue(updatedMovieList)
+
+            }
+
+        }
+    }
+
     fun checkIfThereIsScrollingPossible(totalItemCount: Int): Boolean {
-        return (totalResults > totalItemCount)
+        return (totalResults - 1 > totalItemCount)
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        movieLiveData.postValue(listOf())
+        getMovies(0, query)
     }
 }
