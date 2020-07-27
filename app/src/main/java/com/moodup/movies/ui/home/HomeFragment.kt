@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.jakewharton.rxbinding2.widget.queryTextChanges
-import com.moodup.movies.state.AddedItemState
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.utils.adapter.MoviesAdapter
@@ -119,7 +117,6 @@ class HomeFragment : Fragment() {
 
     private fun observeLiveData() {
         viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
-            Log.d("STATE", state.toString())
             when (state) {
 
                 UIState.LOADING -> {
