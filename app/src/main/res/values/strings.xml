@@ -31,4 +31,7 @@
     <string name="login_success">Logged successfully</string>
     <string name="login_failure">Failed to log in</string>
     <string name="already_have_account">Already have an account?</string>
+    <string name="add_success">Successfully added to favourites</string>
+    <string name="no_document">No document</string>
+    <string name="add_failure">Adding failure</string>
 </resources>

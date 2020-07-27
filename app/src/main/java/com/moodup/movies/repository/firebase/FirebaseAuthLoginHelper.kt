@@ -2,6 +2,7 @@ package com.moodup.movies.repository.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.moodup.movies.state.AuthLoginState
 
 class FirebaseAuthLoginHelper() {
@@ -12,6 +13,7 @@ class FirebaseAuthLoginHelper() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 authStateLoginLiveData.postValue(AuthLoginState.ON_LOGIN_SUCCESS)
+                val user: FirebaseUser?  = FirebaseAuth.getInstance().currentUser
             }
 
             .addOnFailureListener {

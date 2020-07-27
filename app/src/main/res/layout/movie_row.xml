@@ -14,36 +14,17 @@
         android:layout_weight="2"
         android:contentDescription="@string/movie_picture"
         android:padding="8dp"
+        android:layout_margin="5dp"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:weightSum="4">
 
         <TextView
             android:id="@+id/movie_title"
             android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             android:padding="8dp"
             android:textSize="18sp"
             tools:text="Title" />
-
-        <Button
-            android:id="@+id/add_to_favourites_button"
-            android:background="@color/green"
-            android:textColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            android:layout_weight="2"
-            android:text="@string/add_to_favourites" />
-
-    </LinearLayout>
 
 </LinearLayout>

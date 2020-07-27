@@ -9,9 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
+import com.moodup.movies.utils.adapter.FavouritesAdapter
 import kotlinx.android.synthetic.main.fragment_favourites.*
 
 class FavouritesFragment : Fragment() {
+
+    private var adapter: FavouritesAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +29,7 @@ class FavouritesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         favourites_grid_recycler_view.layoutManager =  GridLayoutManager(context,2)
-
+        adapter = FavouritesAdapter()
     }
 
 }

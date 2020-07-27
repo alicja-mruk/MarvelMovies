@@ -3,6 +3,8 @@ package com.moodup.movies.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.moodup.movies.repository.firebase.FirebaseAuthLoginHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthRegisterHelper
 import com.moodup.movies.state.AuthLoginState
@@ -12,8 +14,10 @@ import com.moodup.movies.state.AuthRegisterState
 class AuthenticationViewModel : ViewModel() {
     var authenticationRegisterState = MutableLiveData<AuthRegisterState>()
     var authenticationLoginState = MutableLiveData<AuthLoginState>()
+    val userID = MutableLiveData<String>()
     val firebaseLoginHelper = FirebaseAuthLoginHelper()
     val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
+
 
     val observerLoginState = Observer<AuthLoginState> { loginState ->
         authenticationLoginState.postValue(loginState)
@@ -22,6 +26,7 @@ class AuthenticationViewModel : ViewModel() {
     val observerRegisterState = Observer<AuthRegisterState> { registerState ->
         authenticationRegisterState.postValue(registerState)
     }
+
 
     init {
         firebaseLoginHelper.authStateLoginLiveData.observeForever(observerLoginState)
