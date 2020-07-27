@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileOptions {
@@ -32,6 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {
@@ -87,5 +89,8 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0"
 
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
 }
