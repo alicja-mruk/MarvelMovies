@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.login_success),
-            Toast.LENGTH_SHORT
+            Toast.LENGTH_LONG
         ).show()
 
         context?.let {
