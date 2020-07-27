@@ -15,15 +15,15 @@ class AuthenticationViewModel : ViewModel() {
     val firebaseLoginHelper = FirebaseAuthLoginHelper()
     val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
 
-    val observerLoginState = Observer<AuthLoginState> { loginState->
+    val observerLoginState = Observer<AuthLoginState> { loginState ->
         authenticationLoginState.postValue(loginState)
     }
 
-    val observerRegisterState = Observer<AuthRegisterState>{registerState->
+    val observerRegisterState = Observer<AuthRegisterState> { registerState ->
         authenticationRegisterState.postValue(registerState)
     }
 
-    init{
+    init {
         firebaseLoginHelper.authStateLoginLiveData.observeForever(observerLoginState)
         firebaseRegisterHelper.authStateRegisterLiveData.observeForever(observerRegisterState)
     }
@@ -35,28 +35,28 @@ class AuthenticationViewModel : ViewModel() {
     }
 
 
-    fun login(email : String, password:String){
+    fun login(email: String, password: String) {
 
-        if(!isEmailOrPasswordEmpty(email,password)){
+        if (!isEmailOrPasswordEmpty(email, password)) {
             firebaseLoginHelper.performLogin(email, password)
-        }else{
+        } else {
             authenticationLoginState.postValue(AuthLoginState.EMPTY_EMAIL_OR_PASSWORD_FIELD)
         }
 
     }
 
-    fun register(email : String, password:String){
+    fun register(email: String, password: String) {
 
-        if(!isEmailOrPasswordEmpty(email,password)){
+        if (!isEmailOrPasswordEmpty(email, password)) {
             firebaseRegisterHelper.performRegister(email, password)
 
-        }else{
+        } else {
             authenticationRegisterState.postValue(AuthRegisterState.EMPTY_EMAIL_OR_PASSWORD_FIELD)
         }
 
     }
 
-    private fun isEmailOrPasswordEmpty(email : String ,password:String): Boolean {
+    private fun isEmailOrPasswordEmpty(email: String, password: String): Boolean {
         return email.isEmpty() || password.isEmpty()
     }
 
