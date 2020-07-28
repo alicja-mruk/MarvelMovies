@@ -1,6 +1,7 @@
 package com.moodup.movies.ui.authentication
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,12 +32,15 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
         activity?.let {
             viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
         }
 
         setOnClickListeners()
         observeLiveData()
+
     }
 
     private fun setOnClickListeners() {
@@ -50,20 +54,33 @@ class LoginFragment : Fragment() {
             //todo : nav controller to change password fragment
         }
     }
-    private fun observeLiveData(){
+
+    private fun observeLiveData() {
         viewModel?.authenticationLoginState?.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                AuthLoginState.EMPTY_EMAIL_OR_PASSWORD_FIELD->{
+                AuthLoginState.EMPTY_EMAIL_OR_PASSWORD_FIELD -> {
                     onEmptyEmailOrPasswordField()
                 }
-                AuthLoginState.ON_LOGIN_SUCCESS->{
+                AuthLoginState.ON_LOGIN_SUCCESS -> {
                     onLoginSuccess()
                 }
-                AuthLoginState.ON_LOGIN_FAILURE->{
+                AuthLoginState.ON_LOGIN_FAILURE -> {
                     onLoginFailure()
                 }
+
+                AuthLoginState.ON_ALREADY_LOGGED_IN -> {
+                    context?.let { startMainActivity(it) }
+                }
             }
+
         })
+
+    }
+
+    private fun startMainActivity(context: Context) {
+
+        StartActivityHelper(context, MainActivity::class.java).startActivityWithClearTaskFlag()
+
     }
 
     private fun onLoginSuccess() {
@@ -71,7 +88,7 @@ class LoginFragment : Fragment() {
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.login_success),
-            Toast.LENGTH_SHORT
+            Toast.LENGTH_LONG
         ).show()
 
         context?.let {

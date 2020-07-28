@@ -2,6 +2,7 @@ package com.moodup.movies.repository.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.moodup.movies.state.AuthLoginState
 
 class FirebaseAuthLoginHelper() {

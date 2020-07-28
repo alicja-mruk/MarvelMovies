@@ -8,6 +8,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movies.R
 
 class MainActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,4 +24,6 @@ class MainActivity : AppCompatActivity() {
         if (!findNavController(R.id.navFragment).navigateUp()) finish()
         return true
     }
+
+
 }

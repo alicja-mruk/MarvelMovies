@@ -12,9 +12,8 @@ import com.example.movies.R
 import com.moodup.movies.utils.adapter.FavouritesAdapter
 import kotlinx.android.synthetic.main.fragment_favourites.*
 
-class FavouritesFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private var adapter: FavouritesAdapter? = null
 
 
     override fun onCreateView(
@@ -22,14 +21,11 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_favourites, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        favourites_grid_recycler_view.layoutManager =  GridLayoutManager(context,2)
-        adapter = FavouritesAdapter()
     }
 
 }

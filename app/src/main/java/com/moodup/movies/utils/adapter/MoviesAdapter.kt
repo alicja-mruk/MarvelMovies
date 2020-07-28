@@ -21,10 +21,8 @@ import java.util.Collections.addAll
 class MoviesAdapter(viewModel: MovieViewModel, fragment: Fragment) :
     RecyclerView.Adapter<BaseViewHolder>() {
     private var movies = ArrayList<Movie?>()
-    private var favouritesMoviesContainer = ArrayList<Movie?>()
     private var isProgressBarVisible = false
     var onItemClick: ((Movie) -> Unit)? = null
-    var onFavouritesButtonClick: ((Movie) -> Unit)? = null
 
 
     init {
@@ -63,12 +61,6 @@ class MoviesAdapter(viewModel: MovieViewModel, fragment: Fragment) :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is RowViewHolder) {
             movies[position]?.let { holder.bindData(it) }
-
-            if (favouritesMoviesContainer.contains(movies[position])) {
-                holder.addedToFavouritesColorChange()
-            } else {
-                holder.removedFromFavouritesColorChange()
-            }
         }
 
     }
@@ -77,39 +69,8 @@ class MoviesAdapter(viewModel: MovieViewModel, fragment: Fragment) :
         init {
             itemView.setOnClickListener {
                 movies[adapterPosition]?.let { it1 -> onItemClick?.invoke(it1) }
-
             }
-
-            itemView.add_to_favourites_button?.setOnClickListener {
-                if (favouritesMoviesContainer.contains(movies[adapterPosition])) {
-                    addedToFavouritesColorChange()
-                } else {
-                    removedFromFavouritesColorChange()
-                }
-
-                movies[adapterPosition]?.let { it2 ->
-                    onFavouritesButtonClick?.invoke(it2)
-                }
-            }
-
         }
-
-        fun addedToFavouritesColorChange() {
-            itemView.add_to_favourites_button.text =
-                itemView.context.resources.getString(R.string.remove_from_favourites)
-            itemView.add_to_favourites_button.setBackgroundColor(Color.RED)
-        }
-
-        fun removedFromFavouritesColorChange() {
-            itemView.add_to_favourites_button.text =
-                itemView.context.resources.getString(R.string.add_to_favourites)
-            itemView.add_to_favourites_button.setBackgroundColor(
-                itemView.context.resources.getColor(
-                    R.color.green
-                )
-            )
-        }
-
 
         fun bindData(item: Movie) {
             with(itemView) {
@@ -119,11 +80,6 @@ class MoviesAdapter(viewModel: MovieViewModel, fragment: Fragment) :
                 movie_title.text = item.title
             }
         }
-    }
-
-    fun updateFavouritesList(_favourites: List<Movie?>) {
-        favouritesMoviesContainer = _favourites as ArrayList<Movie?>
-        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -151,9 +107,6 @@ class MoviesAdapter(viewModel: MovieViewModel, fragment: Fragment) :
         }
     }
 
-    fun clearMoviesList() {
-        movies.clear()
-    }
 
 
     companion object {
