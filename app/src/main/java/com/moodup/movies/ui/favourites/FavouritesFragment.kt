@@ -55,7 +55,9 @@ class FavouritesFragment : Fragment() {
     private fun observeLiveData() {
 
         viewModel.favouritesMovies.observe(viewLifecycleOwner, Observer {
-            adapter?.setData(it)
+            if(it.isNotEmpty()){
+                adapter?.setData(it)
+            }
         })
 
         viewModel.favouritesCallbackState.observe(viewLifecycleOwner, Observer { state ->
@@ -72,7 +74,6 @@ class FavouritesFragment : Fragment() {
                     onSuccess()
                 }
                 FavouritesCallbackState.INITIALIZED -> {
-                    viewModel.favouritesCallbackState.postValue(FavouritesCallbackState.LOADING)
                     viewModel.getFavouriteMoviesFromDatabase()
                 }
                 FavouritesCallbackState.LOADING -> {

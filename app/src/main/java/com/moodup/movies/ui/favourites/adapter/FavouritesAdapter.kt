@@ -3,20 +3,14 @@ package com.moodup.movies.ui.favourites.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
 import com.moodup.movies.ui.home.adapter.viewholder.BaseViewHolder
-import com.moodup.movies.viewmodel.favourites.FavouritesViewModel
-import com.moodup.movies.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.card_view_favourites.view.*
-import kotlinx.android.synthetic.main.movie_row.view.*
-import kotlinx.android.synthetic.main.movie_row.view.movie_title
 
-class FavouritesAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
+class FavouritesAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     var onItemClick: ((Movie) -> Unit)? = null
     private var data = ArrayList<Movie>()
 
