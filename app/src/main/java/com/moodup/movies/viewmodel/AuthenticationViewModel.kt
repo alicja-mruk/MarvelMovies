@@ -64,10 +64,6 @@ class AuthenticationViewModel : ViewModel() {
 
     }
 
-    fun startMainActivity(context: Context) {
-        StartActivityHelper(context, MainActivity::class.java).startActivityWithClearTaskFlag()
-    }
-
     private fun checkIfUserLoggedIn() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {

@@ -84,11 +84,9 @@ class DetailsFragment : Fragment() {
         viewModel?.databaseState?.observe(viewLifecycleOwner, Observer { database ->
             when (database) {
                 AddedToDatabaseState.ADDED_SUCCESS -> {
-                  //  showSuccessAddedMessage()
                     disableAddToFavouritesButton()
                 }
                 AddedToDatabaseState.REMOVED_SUCCESS -> {
-                  //  showSuccessRemovedMessage()
                     enableAddToFavouritesButton()
                 }
 
@@ -120,22 +118,6 @@ class DetailsFragment : Fragment() {
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.add_failure),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun showSuccessAddedMessage() {
-        Toast.makeText(
-            context,
-            context?.resources?.getString(R.string.add_success),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun showSuccessRemovedMessage() {
-        Toast.makeText(
-            context,
-            context?.resources?.getString(R.string.remove_success),
             Toast.LENGTH_SHORT
         ).show()
     }
