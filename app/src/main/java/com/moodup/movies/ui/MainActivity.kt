@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.movies.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,16 +16,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navFragment))
-        val navController = findNavController(R.id.navFragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
+        val navController = findNavController(R.id.homeFragment)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        bottom_nav_menu.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        if (!findNavController(R.id.navFragment).navigateUp()) finish()
+        if (!findNavController(R.id.homeFragment).navigateUp()) finish()
         return true
     }
-
 
 }

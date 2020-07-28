@@ -13,14 +13,14 @@ class AuthenticationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_authentication)
         supportActionBar?.hide()
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
         val authNavController = findNavController(R.id.authNavFragment)
         setupActionBarWithNavController(authNavController, appBarConfiguration)
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
-        if (!findNavController(R.id.navFragment).navigateUp()) finish()
+        if (!findNavController(R.id.homeFragment).navigateUp()) finish()
         return true
     }
 }
