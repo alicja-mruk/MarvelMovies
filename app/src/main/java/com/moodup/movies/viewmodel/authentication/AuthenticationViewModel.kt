@@ -1,17 +1,13 @@
-package com.moodup.movies.viewmodel
+package com.moodup.movies.viewmodel.authentication
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.moodup.movies.repository.delegators.StartActivityHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthLoginHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthRegisterHelper
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.state.AuthRegisterState
-import com.moodup.movies.ui.MainActivity
 
 
 class AuthenticationViewModel : ViewModel() {

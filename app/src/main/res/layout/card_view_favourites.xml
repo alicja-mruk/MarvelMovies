@@ -5,11 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
         android:layout_row="0"
         android:layout_column="0"
         android:layout_gravity="fill"
@@ -17,11 +18,13 @@
         android:layout_columnWeight="1"
         android:layout_margin="0dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="9dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp"
+        app:cardBackgroundColor="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,13 +37,16 @@
                 android:id="@+id/movie_favourites_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                tools:text="Title"
-                android:textStyle="bold"
-                android:textSize="24sp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movie_favourites_picture" />
+                app:layout_constraintTop_toBottomOf="@+id/movie_favourites_picture"
+                tools:text="Title" />
 
             <ImageView
                 android:id="@+id/movie_favourites_picture"

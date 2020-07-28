@@ -10,12 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.movies.R
 import com.moodup.movies.repository.delegators.StartActivityHelper
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.ui.MainActivity
-import com.moodup.movies.viewmodel.AuthenticationViewModel
+import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 

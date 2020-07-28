@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedToDatabaseState
-import com.moodup.movies.viewmodel.DetailsViewModel
+import com.moodup.movies.viewmodel.details.DetailsViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.movie_title
 

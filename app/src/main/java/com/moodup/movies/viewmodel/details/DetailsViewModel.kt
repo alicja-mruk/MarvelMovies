@@ -1,6 +1,5 @@
-package com.moodup.movies.viewmodel
+package com.moodup.movies.viewmodel.details
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
@@ -8,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.moodup.movies.model.Movie
+import com.moodup.movies.model.Thumbnail
 import com.moodup.movies.state.AddedToDatabaseState
 
 
@@ -41,11 +41,13 @@ class DetailsViewModel : ViewModel() {
 
     private fun addToDatabase() {
 
-        val photoUrl = "${movie?.thumbnail?.path}.${movie?.thumbnail?.extension}"
-
         val movieItem = hashMapOf(
+            "id" to movie?.id,
+            "thumbnail" to movie?.thumbnail,
             "title" to movie?.title,
-            "photoUrl" to photoUrl
+            "description" to movie?.description,
+            "format" to movie?.format,
+            "pageCount" to movie?.pageCount
         )
 
         if (userId == null) return
