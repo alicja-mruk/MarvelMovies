@@ -31,12 +31,15 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
         activity?.let {
             viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
         }
 
         setOnClickListeners()
         observeLiveData()
+
     }
 
     private fun setOnClickListeners() {
@@ -62,6 +65,11 @@ class LoginFragment : Fragment() {
                 AuthLoginState.ON_LOGIN_FAILURE->{
                     onLoginFailure()
                 }
+
+                AuthLoginState.ON_ALREADY_LOGGED_IN->{
+                    context?.let { viewModel?.startMainActivity(it) }
+                }
+
             }
         })
     }

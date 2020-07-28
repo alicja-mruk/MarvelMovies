@@ -13,7 +13,6 @@ class FirebaseAuthLoginHelper() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 authStateLoginLiveData.postValue(AuthLoginState.ON_LOGIN_SUCCESS)
-                val user: FirebaseUser?  = FirebaseAuth.getInstance().currentUser
             }
 
             .addOnFailureListener {

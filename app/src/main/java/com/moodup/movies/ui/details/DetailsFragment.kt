@@ -40,13 +40,21 @@ class DetailsFragment : Fragment() {
         activity?.let {
             viewModel = ViewModelProvider(it).get(DetailsViewModel::class.java)
         }
+
+        viewModel?.movie = movie
+        viewModel?.isMovieInDataBase()
         observeLiveData()
 
         add_to_favourites_btn.setOnClickListener {
-            viewModel?.checkIfMovieIsInDatabase(movie)
+            viewModel?.checkIfMovieIsInDatabase()
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel?.isMoviePresent?.postValue(false)
+
+    }
 
     private fun setDataIntoFields(movie: Movie) {
 
@@ -62,15 +70,25 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeLiveData() {
+        viewModel?.isMoviePresent?.observe(viewLifecycleOwner, Observer { buttonState->
+            when(buttonState){
+                true->{
+                    disableAddToFavouritesButton()
+                }
+                false->{
+                    enableAddToFavouritesButton()
+                }
+            }
+        })
 
         viewModel?.databaseState?.observe(viewLifecycleOwner, Observer { database ->
             when (database) {
                 AddedToDatabaseState.ADDED_SUCCESS -> {
-                    showSuccessAddedMessage()
+                  //  showSuccessAddedMessage()
                     disableAddToFavouritesButton()
                 }
                 AddedToDatabaseState.REMOVED_SUCCESS -> {
-                    showSuccessRemovedMessage()
+                  //  showSuccessRemovedMessage()
                     enableAddToFavouritesButton()
                 }
 
@@ -79,9 +97,6 @@ class DetailsFragment : Fragment() {
                 }
                 AddedToDatabaseState.NO_DOCUMENT -> {
                     showNoDocumentMessage()
-                }
-                AddedToDatabaseState.DEFAULT -> {
-
                 }
 
             }

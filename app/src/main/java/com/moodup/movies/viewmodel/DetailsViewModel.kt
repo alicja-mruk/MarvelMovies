@@ -10,23 +10,25 @@ import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedToDatabaseState
 
 
-class DetailsViewModel : ViewModel() {
+class DetailsViewModel: ViewModel() {
 
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private var isAdded: Boolean = false
     var databaseState = MutableLiveData<AddedToDatabaseState>()
+    var isMoviePresent = MutableLiveData<Boolean>()
+    var movie : Movie? = null
 
-    fun checkIfMovieIsInDatabase(movie: Movie) {
+
+    fun checkIfMovieIsInDatabase() {
 
         if (userId != null) {
             val docRef = db.collection("favourites").document(userId)
-                .collection("movies").document(movie.id.toString())
+                .collection("movies").document(movie?.id.toString())
 
             docRef.get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
-                        addOrRemoveMovieFromDatabase(movie)
+                        addOrRemoveMovieFromDatabase()
                     }
                 }
                 .addOnFailureListener {
@@ -36,19 +38,19 @@ class DetailsViewModel : ViewModel() {
         }
     }
 
-    private fun addToDatabase(movie: Movie) {
+    private fun addToDatabase() {
 
-        val photoUrl = "${movie.thumbnail.path}.${movie.thumbnail.extension}"
+        val photoUrl = "${movie?.thumbnail?.path}.${movie?.thumbnail?.extension}"
 
         val movieItem = hashMapOf(
-            "title" to movie.title,
+            "title" to movie?.title,
             "photoUrl" to photoUrl
         )
 
         if (userId == null) return
 
         db.collection("favourites").document(userId)
-            .collection("movies").document(movie.id.toString())
+            .collection("movies").document(movie?.id.toString())
             .set(movieItem)
             .addOnSuccessListener {
                 databaseState.postValue(AddedToDatabaseState.ADDED_SUCCESS)
@@ -58,7 +60,7 @@ class DetailsViewModel : ViewModel() {
             }
     }
 
-    private fun removeFromDatabase(movie: Movie) {
+    private fun removeFromDatabase() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -66,7 +68,7 @@ class DetailsViewModel : ViewModel() {
 
         val docRef = db.collection("favourites").document(userId)
             .collection("movies")
-            .document(movie.id.toString())
+            .document(movie?.id.toString())
 
         docRef.delete()
             .addOnCompleteListener {
@@ -77,26 +79,40 @@ class DetailsViewModel : ViewModel() {
             }
     }
 
-    private fun addOrRemoveMovieFromDatabase(movie: Movie) {
+    private fun addOrRemoveMovieFromDatabase() {
         val docRef = db.collection("favourites").document(userId!!).collection("movies")
-            .document(movie.id.toString())
+            .document(movie?.id.toString())
 
         docRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val document: DocumentSnapshot = task.result as DocumentSnapshot
                 if (document.exists()) {
-                    Log.d(TAG, "Document exists!")
-                    removeFromDatabase(movie)
+                    removeFromDatabase()
                 } else {
-                    Log.d(TAG, "Document does not exist!")
-                    addToDatabase(movie)
+                    addToDatabase()
                 }
             } else {
-                Log.d(TAG, "Failed with: ", task.exception)
+                databaseState.postValue(AddedToDatabaseState.FAILURE)
             }
         }
 
     }
 
-    val TAG = "getdatabase"
+    fun isMovieInDataBase(){
+        val docRef = db.collection("favourites").document(userId!!).collection("movies")
+            .document(movie?.id.toString())
+        docRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document: DocumentSnapshot = task.result as DocumentSnapshot
+                if(document.exists()){
+                    isMoviePresent.postValue(true)
+                }else{
+                    isMoviePresent.postValue(false)
+                }
+
+            } else {
+                databaseState.postValue(AddedToDatabaseState.FAILURE)
+            }
+        }
+    }
 }

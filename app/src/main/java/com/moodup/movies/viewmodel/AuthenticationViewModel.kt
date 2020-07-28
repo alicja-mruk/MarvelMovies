@@ -1,20 +1,22 @@
 package com.moodup.movies.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.moodup.movies.repository.delegators.StartActivityHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthLoginHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthRegisterHelper
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.state.AuthRegisterState
+import com.moodup.movies.ui.MainActivity
 
 
 class AuthenticationViewModel : ViewModel() {
     var authenticationRegisterState = MutableLiveData<AuthRegisterState>()
     var authenticationLoginState = MutableLiveData<AuthLoginState>()
-    val userID = MutableLiveData<String>()
     val firebaseLoginHelper = FirebaseAuthLoginHelper()
     val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
 
@@ -29,6 +31,7 @@ class AuthenticationViewModel : ViewModel() {
 
 
     init {
+        checkIfUserLoggedIn()
         firebaseLoginHelper.authStateLoginLiveData.observeForever(observerLoginState)
         firebaseRegisterHelper.authStateRegisterLiveData.observeForever(observerRegisterState)
     }
@@ -59,6 +62,17 @@ class AuthenticationViewModel : ViewModel() {
             authenticationRegisterState.postValue(AuthRegisterState.EMPTY_EMAIL_OR_PASSWORD_FIELD)
         }
 
+    }
+
+    fun startMainActivity(context: Context) {
+        StartActivityHelper(context, MainActivity::class.java).startActivityWithClearTaskFlag()
+    }
+
+    private fun checkIfUserLoggedIn() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            authenticationLoginState.postValue(AuthLoginState.ON_ALREADY_LOGGED_IN)
+        }
     }
 
     private fun isEmailOrPasswordEmpty(email: String, password: String): Boolean {
