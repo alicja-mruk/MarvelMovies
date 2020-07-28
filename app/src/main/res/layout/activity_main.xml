@@ -9,12 +9,12 @@
     tools:context="com.moodup.movies.ui.MainActivity">
 
     <fragment
-        android:id="@+id/navFragment"
+        android:id="@+id/homeFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_menu"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,7 +23,7 @@
         app:navGraph="@navigation/main_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_nav_menu"
         android:background="?android:attr/windowBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
