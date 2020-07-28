@@ -39,7 +39,7 @@ class FavouritesViewModel : ViewModel() {
             }
 
         }
-            .addOnFailureListener {
+            ?.addOnFailureListener {
                 favouritesCallbackState.postValue(FavouritesCallbackState.ON_FAILURE)
                 favouritesMovies.postValue(null)
 
