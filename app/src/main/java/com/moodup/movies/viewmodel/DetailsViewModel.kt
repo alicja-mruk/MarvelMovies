@@ -3,6 +3,7 @@ package com.moodup.movies.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,7 +22,7 @@ class DetailsViewModel : ViewModel() {
 
     fun checkIfMovieIsInDatabase() {
 
-        if (userId != null) {
+        userId?.let{
             val docRef = db.collection("favourites").document(userId)
                 .collection("movies").document(movie?.id.toString())
 
@@ -80,13 +81,14 @@ class DetailsViewModel : ViewModel() {
     }
 
     private fun addOrRemoveMovieFromDatabase() {
-        val docRef = db.collection("favourites").document(userId!!).collection("movies")
-            .document(movie?.id.toString())
+        val docRef = userId?.let {
+            db.collection("favourites").document(it).collection("movies")
+                .document(movie?.id.toString())
+        }
 
-        docRef.get().addOnCompleteListener { task ->
+        docRef?.get()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val document: DocumentSnapshot = task.result as DocumentSnapshot
-                if (document.exists()) {
+                if (isDocumentExistsInDatabase(task)) {
                     removeFromDatabase()
                 } else {
                     addToDatabase()
@@ -98,13 +100,19 @@ class DetailsViewModel : ViewModel() {
 
     }
 
+    private fun isDocumentExistsInDatabase(task : Task<DocumentSnapshot>) : Boolean{
+        val document: DocumentSnapshot = task.result as DocumentSnapshot
+        return document.exists()
+    }
+
     fun isMovieInDataBase() {
-        val docRef = db.collection("favourites").document(userId!!).collection("movies")
-            .document(movie?.id.toString())
-        docRef.get().addOnCompleteListener { task ->
+        val docRef = userId?.let {
+            db.collection("favourites").document(it).collection("movies")
+                .document(movie?.id.toString())
+        }
+        docRef?.get()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val document: DocumentSnapshot = task.result as DocumentSnapshot
-                if (document.exists()) {
+               if (isDocumentExistsInDatabase(task)) {
                     isMoviePresent.postValue(true)
                 } else {
                     isMoviePresent.postValue(false)
