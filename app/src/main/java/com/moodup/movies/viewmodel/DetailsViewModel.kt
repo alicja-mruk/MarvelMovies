@@ -10,13 +10,13 @@ import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedToDatabaseState
 
 
-class DetailsViewModel: ViewModel() {
+class DetailsViewModel : ViewModel() {
 
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     var databaseState = MutableLiveData<AddedToDatabaseState>()
     var isMoviePresent = MutableLiveData<Boolean>()
-    var movie : Movie? = null
+    var movie: Movie? = null
 
 
     fun checkIfMovieIsInDatabase() {
@@ -98,15 +98,15 @@ class DetailsViewModel: ViewModel() {
 
     }
 
-    fun isMovieInDataBase(){
+    fun isMovieInDataBase() {
         val docRef = db.collection("favourites").document(userId!!).collection("movies")
             .document(movie?.id.toString())
         docRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val document: DocumentSnapshot = task.result as DocumentSnapshot
-                if(document.exists()){
+                if (document.exists()) {
                     isMoviePresent.postValue(true)
-                }else{
+                } else {
                     isMoviePresent.postValue(false)
                 }
 
