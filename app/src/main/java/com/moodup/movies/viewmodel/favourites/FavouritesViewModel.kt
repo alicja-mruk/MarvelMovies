@@ -25,7 +25,7 @@ class FavouritesViewModel : ViewModel() {
     val favouritesCallbackState = MutableLiveData<FavouritesCallbackState>(FavouritesCallbackState.INITIALIZED)
 
     fun getFavouriteMoviesFromDatabase() {
-        docRef?.get()!!.addOnSuccessListener { result ->
+        docRef?.get()?.addOnSuccessListener { result ->
             val resultMovies: List<Movie> = result.toObjects(Movie::class.java)
 
             if (resultMovies.isNotEmpty()) {

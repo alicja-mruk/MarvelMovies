@@ -42,8 +42,10 @@ class FavouritesFragment : Fragment() {
         adapter = FavouritesAdapter()
         favourites_grid_recycler_view.adapter = adapter
 
-        adapter!!.onItemClick = { movie ->
-            showDeleteDialog(movie)
+        adapter?.let {
+            it.onItemClick = { movie ->
+                showDeleteDialog(movie)
+            }
         }
 
         viewModel.getFavouriteMoviesFromDatabase()

@@ -16,8 +16,7 @@ import kotlinx.android.synthetic.main.card_view_favourites.view.*
 import kotlinx.android.synthetic.main.movie_row.view.*
 import kotlinx.android.synthetic.main.movie_row.view.movie_title
 
-class FavouritesAdapter()
-    : RecyclerView.Adapter<BaseViewHolder>() {
+class FavouritesAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
     var onItemClick: ((Movie) -> Unit)? = null
     private var data = ArrayList<Movie>()
 
@@ -44,7 +43,7 @@ class FavouritesAdapter()
     inner class FavouriteMovieViewHolder(itemView: View) : BaseViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
-                data[adapterPosition].let { it1 -> onItemClick?.invoke(it1)}
+                data[adapterPosition].let { it1 -> onItemClick?.invoke(it1) }
 
             }
         }
@@ -59,7 +58,7 @@ class FavouritesAdapter()
         }
     }
 
-    fun setData(list : List<Movie>){
+    fun setData(list: List<Movie>) {
         data = list as ArrayList<Movie>
         notifyDataSetChanged()
     }
