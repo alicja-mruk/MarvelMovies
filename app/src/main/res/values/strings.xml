@@ -16,7 +16,6 @@
     <string name="remove_from_favourites">Remove from favourites</string>
     <string name="removed">Removed From Favourites List</string>
     <string name="added">Added To Favourites List</string>
-    <string name="favourites_movies">Favourites Movies</string>
     <string name="home">Home</string>
     <string name="favourites">Favourites</string>
     <string name="settings">Settings</string>
@@ -35,6 +34,8 @@
     <string name="remove_success">Successfully removed</string>
     <string name="add_failure">Adding failure</string>
     <string name="no_document">Document doesn\'t exist</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_favourite_list">You don\'t have favourite movies yet!</string>
+    <string name="dialog_title">Do you want to remove from favourites?</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="remove_yes">Yes</string>
 </resources>

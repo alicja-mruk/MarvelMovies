@@ -1,4 +1,4 @@
-package com.moodup.movies.utils.adapter.viewholder
+package com.moodup.movies.ui.home.adapter.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

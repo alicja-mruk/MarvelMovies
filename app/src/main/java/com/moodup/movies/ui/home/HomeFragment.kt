@@ -3,11 +3,10 @@ package com.moodup.movies.ui.home
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,11 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.jakewharton.rxbinding2.widget.queryTextChanges
-import com.moodup.movies.state.AddedToDatabaseState
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
-import com.moodup.movies.utils.adapter.MoviesAdapter
-import com.moodup.movies.viewmodel.MovieViewModel
+import com.moodup.movies.ui.home.adapter.HomeAdapter
+import com.moodup.movies.viewmodel.home.HomeViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.concurrent.TimeUnit
@@ -28,8 +26,8 @@ import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private var viewModel: MovieViewModel? = null
-    private var adapter: MoviesAdapter? = null
+    private var viewModel: HomeViewModel? = null
+    private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +41,7 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity?.let {
-            viewModel = ViewModelProvider(it).get(MovieViewModel::class.java)
+            viewModel = ViewModelProvider(it).get(HomeViewModel::class.java)
         }
 
         setUpSearchView()
@@ -99,7 +97,7 @@ class HomeFragment : Fragment() {
     private fun setUpAdapter() {
 
         viewModel?.let { viewModel ->
-            adapter = MoviesAdapter(viewModel, this)
+            adapter = HomeAdapter(viewModel, this)
             movies_recycler_view.adapter = adapter
             movies_recycler_view.addItemDecoration(
                 HorizontalDividerItemDecoration.Builder(context).color(

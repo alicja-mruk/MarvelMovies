@@ -19,6 +19,8 @@
 
         <TextView
             android:id="@+id/movie_title"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"

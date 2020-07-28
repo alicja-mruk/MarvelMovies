@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="5dp"
-        android:text="@string/favourites_movies"
+        android:text="@string/favourites"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -24,15 +24,53 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:id="@+id/favourites_grid_recycler_view"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_marginTop="15dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favourites_title">
+        app:layout_constraintTop_toBottomOf="@+id/favourites_title"/>
 
-    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/empty_favourite_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/empty_favourite_list"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/error_img"
+        android:src="@drawable/ic_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favourites_title"
+        android:contentDescription="@string/error"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/favourites_progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favourites_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

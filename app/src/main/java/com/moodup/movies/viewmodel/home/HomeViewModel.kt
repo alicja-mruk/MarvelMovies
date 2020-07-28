@@ -1,21 +1,15 @@
-package com.moodup.movies.viewmodel
+package com.moodup.movies.viewmodel.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestore
 import com.moodup.movies.model.Movie
 import com.moodup.movies.model.Result
 import com.moodup.movies.repository.api.call.MovieRepository
-import com.moodup.movies.state.AddedToDatabaseState
 import com.moodup.movies.state.UIState
-import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 
-class MovieViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private var movieRepository: MovieRepository = MovieRepository()
 
     var isDataLoading: Boolean = false

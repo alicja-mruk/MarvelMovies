@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movies.R
 import com.moodup.movies.state.AuthRegisterState
-import com.moodup.movies.viewmodel.AuthenticationViewModel
+import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 class SignupFragment : Fragment(){
