@@ -38,4 +38,12 @@
     <string name="dialog_title">Do you want to remove from favourites?</string>
     <string name="cancelled">Cancelled</string>
     <string name="remove_yes">Yes</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="empty_email_field">Email field can\'t be empty</string>
+    <string name="reset_password_success">Confirmation email has been send</string>
+    <string name="reset_password_failure">Error has occurred</string>
+    <string name="logout">Log out</string>
+    <string name="logout_success">Successfully logged out</string>
+    <string name="logout_failure">Logout failure</string>
+    <string name="change_password_button">Change Password</string>
 </resources>

@@ -116,6 +116,7 @@ class FavouritesFragment : Fragment() {
         favourites_grid_recycler_view.visibility = View.GONE
         empty_favourite_list.visibility = View.VISIBLE
         error_img.visibility = View.GONE
+        hideLoading()
     }
 
     private fun showOnFailure() {
