@@ -80,7 +80,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun onLoginSuccess() {
-
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.login_success),

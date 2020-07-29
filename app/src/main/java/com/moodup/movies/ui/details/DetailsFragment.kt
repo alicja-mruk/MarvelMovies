@@ -11,15 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movies.R
 import com.example.movies.databinding.FragmentDetailsBinding
-import com.example.movies.databinding.FragmentFavouritesBinding
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedToDatabaseState
 import com.moodup.movies.viewmodel.details.DetailsViewModel
-import kotlinx.android.synthetic.main.fragment_details.*
-import kotlinx.android.synthetic.main.fragment_details.movie_title
 
 class DetailsFragment : Fragment() {
     private lateinit var binding : FragmentDetailsBinding
+
     companion object {
         const val MOVIE_KEY = "MOVIE_KEY"
     }

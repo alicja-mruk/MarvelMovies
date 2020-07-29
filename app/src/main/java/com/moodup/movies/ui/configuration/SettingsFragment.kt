@@ -38,14 +38,9 @@ class SettingsFragment : Fragment() {
             viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
         }
 
-        setOnClickListeners()
-        observeLiveData()
-    }
+        binding.viewModel = viewModel
 
-    private fun setOnClickListeners() {
-        binding.logoutBtn.setOnClickListener {
-            viewModel.logout()
-        }
+        observeLiveData()
     }
 
     private fun observeLiveData() {

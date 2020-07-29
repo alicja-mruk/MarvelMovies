@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -101,8 +100,8 @@ class HomeFragment : Fragment(){
 
         viewModel?.let { viewModel ->
             adapter = HomeAdapter(viewModel, this)
-            movies_recycler_view.adapter = adapter
-            movies_recycler_view.addItemDecoration(
+            binding.moviesRecyclerView.adapter = adapter
+            binding.moviesRecyclerView.addItemDecoration(
                 HorizontalDividerItemDecoration.Builder(context).color(
                     Color.DKGRAY
                 ).sizeResId(R.dimen.divider).marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
