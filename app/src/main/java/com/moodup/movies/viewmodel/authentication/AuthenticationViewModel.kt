@@ -21,7 +21,6 @@ class AuthenticationViewModel : ViewModel() {
     val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
 
 
-
     val observerLoginState = Observer<AuthLoginState> { loginState ->
         authenticationLoginState.postValue(loginState)
     }
@@ -65,14 +64,14 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     fun resetPassword(email: String) {
-        if(isEmailEmpty(email)){
+        if (isEmailEmpty(email)) {
             resetPasswordState.postValue(ResetPasswordState.EMPTY_EMAIL)
-        }else{
+        } else {
             FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         resetPasswordState.postValue(ResetPasswordState.RESET_SUCCESS)
-                    }else{
+                    } else {
                         resetPasswordState.postValue(ResetPasswordState.RESET_FAILURE)
                     }
                 }
@@ -80,7 +79,7 @@ class AuthenticationViewModel : ViewModel() {
 
     }
 
-    fun logout(){
+    fun logout() {
         FirebaseAuth.getInstance().signOut()
         logoutState.postValue(LogoutState.LOGOUT_SUCCESS)
     }
@@ -89,7 +88,7 @@ class AuthenticationViewModel : ViewModel() {
         return email.isEmpty() || password.isEmpty()
     }
 
-    private fun isEmailEmpty(email : String) : Boolean{
+    private fun isEmailEmpty(email: String): Boolean {
         return email.isEmpty()
     }
 }

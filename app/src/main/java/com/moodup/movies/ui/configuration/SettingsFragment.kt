@@ -38,23 +38,23 @@ class SettingsFragment : Fragment() {
         observeLiveData()
     }
 
-    private fun setOnClickListeners(){
+    private fun setOnClickListeners() {
         logout_btn.setOnClickListener {
             viewModel.logout()
         }
     }
 
-    private fun observeLiveData(){
-        viewModel.logoutState.observe(viewLifecycleOwner, Observer {state->
-            when(state){
-                LogoutState.LOGOUT_SUCCESS->{
+    private fun observeLiveData() {
+        viewModel.logoutState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                LogoutState.LOGOUT_SUCCESS -> {
                     logoutSuccess()
                 }
             }
         })
     }
 
-    private fun logoutSuccess(){
+    private fun logoutSuccess() {
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.logout_success),
