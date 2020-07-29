@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movies.R
+import com.example.movies.databinding.FragmentLoginBinding
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.ui.MainActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
@@ -20,14 +21,15 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
+    private lateinit var binding: FragmentLoginBinding
     private var viewModel: AuthenticationViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -44,17 +46,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        login_btn.setOnClickListener {
-            val email = email_login_text.text.toString()
-            val password = password_login_text.text.toString()
+        binding.loginBtn.setOnClickListener {
+            val email = binding.emailLoginText.text.toString()
+            val password = binding.passwordLoginText.text.toString()
             viewModel?.login(email, password)
         }
 
-        forgot_password_btn.setOnClickListener {
+        binding.forgotPasswordBtn.setOnClickListener {
             findNavController().navigate(R.id.action_authNavFragment_to_forgotPasswordFragment)
         }
 
-        login_signup_btn.setOnClickListener {
+        binding.loginSignupBtn.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }

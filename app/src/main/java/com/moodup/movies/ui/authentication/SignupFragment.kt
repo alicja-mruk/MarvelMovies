@@ -10,11 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movies.R
+import com.example.movies.databinding.FragmentHomeBinding
+import com.example.movies.databinding.FragmentSignupBinding
 import com.moodup.movies.state.AuthRegisterState
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 class SignupFragment : Fragment(){
+    private  lateinit var binding : FragmentSignupBinding
     private var viewModel : AuthenticationViewModel? = null
 
     override fun onCreateView(
@@ -22,7 +25,8 @@ class SignupFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_signup, container, false)
+        binding = FragmentSignupBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,9 +41,9 @@ class SignupFragment : Fragment(){
 
 
     private fun setOnClickListeners() {
-        signup_btn.setOnClickListener { register() }
+        binding.signupBtn.setOnClickListener { register() }
 
-        already_have_account.setOnClickListener {
+        binding.alreadyHaveAccount.setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
     }
@@ -60,8 +64,8 @@ class SignupFragment : Fragment(){
     }
 
     private fun register() {
-        val email = email_register_text.text.toString()
-        val password = password_register_text.text.toString()
+        val email = binding.emailRegisterText.text.toString()
+        val password = binding.passwordRegisterText.text.toString()
         viewModel?.register(email, password)
 
     }

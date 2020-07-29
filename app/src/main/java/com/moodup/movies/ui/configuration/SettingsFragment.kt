@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.movies.R
+import com.example.movies.databinding.FragmentHomeBinding
+import com.example.movies.databinding.FragmentSettingsBinding
 import com.moodup.movies.state.LogoutState
 import com.moodup.movies.ui.authentication.AuthenticationActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
     private lateinit var viewModel: AuthenticationViewModel
 
 
@@ -24,7 +27,8 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -39,7 +43,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        logout_btn.setOnClickListener {
+        binding.logoutBtn.setOnClickListener {
             viewModel.logout()
         }
     }

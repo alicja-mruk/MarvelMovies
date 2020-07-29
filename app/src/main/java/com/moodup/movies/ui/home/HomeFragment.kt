@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
+import com.example.movies.databinding.FragmentHomeBinding
 import com.jakewharton.rxbinding2.widget.queryTextChanges
 import com.moodup.movies.state.UIState
 import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
@@ -24,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.concurrent.TimeUnit
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var viewModel: HomeViewModel? = null
     private var adapter: HomeAdapter? = null
@@ -34,7 +36,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,9 +56,9 @@ class HomeFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         linearLayoutManager = LinearLayoutManager(activity)
-        movies_recycler_view.layoutManager = linearLayoutManager
+        binding.moviesRecyclerView.layoutManager = linearLayoutManager
 
-        movies_recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.moviesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -68,7 +71,7 @@ class HomeFragment : Fragment() {
 
                         if (it.checkIfThereIsScrollingPossible(totalItemCount)) {
                             adapter?.showFooterProgressBar()
-                            it.getMovies(totalItemCount + 1, movie_searchview.query.toString())
+                            it.getMovies(totalItemCount + 1, binding.movieSearchview.query.toString())
                         }
                     }
                 }
@@ -78,9 +81,9 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun setUpSearchView() {
-        movie_searchview.clearFocus()
+        binding.movieSearchview.clearFocus()
 
-        movie_searchview.queryTextChanges().skip(2)
+        binding.movieSearchview.queryTextChanges().skip(2)
             .map { it.toString() }
             .doOnNext {
                 viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
@@ -140,28 +143,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun showEmptyResults() {
-        movies_recycler_view.visibility = View.GONE
-        results_textView.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
+        binding.moviesRecyclerView.visibility = View.GONE
+        binding.resultsTextView.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun showOnError() {
-        movies_recycler_view.visibility = View.GONE
-        results_textView.visibility = View.VISIBLE
-        results_textView.text = R.string.error.toString()
-        progressBar.visibility = View.GONE
+        binding.moviesRecyclerView.visibility = View.GONE
+        binding.resultsTextView.visibility = View.VISIBLE
+        binding.resultsTextView.text = R.string.error.toString()
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun showProgressBar() {
-        movies_recycler_view.visibility = View.GONE
-        results_textView.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        binding.moviesRecyclerView.visibility = View.GONE
+        binding.resultsTextView.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        movies_recycler_view.visibility = View.VISIBLE
-        results_textView.visibility = View.GONE
-        progressBar.visibility = View.GONE
+        binding.moviesRecyclerView.visibility = View.VISIBLE
+        binding.resultsTextView.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 
