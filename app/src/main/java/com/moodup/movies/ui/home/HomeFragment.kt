@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +19,14 @@ import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.ui.home.adapter.HomeAdapter
 import com.moodup.movies.viewmodel.home.HomeViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 
 class HomeFragment : Fragment(){
     private lateinit var binding: FragmentHomeBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private var viewModel: HomeViewModel? = null
+    private val viewModel by inject<HomeViewModel>()
     private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
@@ -41,10 +40,6 @@ class HomeFragment : Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(HomeViewModel::class.java)
-        }
 
         setUpSearchView()
         setUpRecyclerView()
@@ -89,7 +84,7 @@ class HomeFragment : Fragment(){
             }
             .debounce(800, TimeUnit.MILLISECONDS)
             .subscribe {
-                if (movie_searchview.hasFocus()) {
+                if (binding.movieSearchview.hasFocus()) {
                     viewModel?.onSearchQueryChanged(it)
                 }
             }

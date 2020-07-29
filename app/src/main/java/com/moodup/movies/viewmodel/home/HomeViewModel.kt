@@ -9,8 +9,7 @@ import com.moodup.movies.state.UIState
 import retrofit2.Call
 import retrofit2.Callback
 
-class HomeViewModel : ViewModel() {
-    private var movieRepository: MovieRepository = MovieRepository()
+class HomeViewModel (private val movieRepository: MovieRepository): ViewModel() {
 
     var isDataLoading: Boolean = false
     var totalResults: Int = 9999

@@ -2,9 +2,10 @@ package com.moodup.movies.repository.api.call
 
 
 import com.moodup.movies.model.Result
+import org.koin.core.KoinComponent
 import retrofit2.Call
 
-class MovieRepository {
+class MovieRepository : KoinComponent {
 
     fun getAllMovies(totalItemCount : Int, query: String): Call<Result> {
         val request =
