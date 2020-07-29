@@ -10,6 +10,7 @@ import com.example.movies.R
 class AuthenticationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         setContentView(R.layout.activity_authentication)
         supportActionBar?.hide()
 
@@ -22,5 +23,13 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         if (!findNavController(R.id.homeFragment).navigateUp()) finish()
         return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (isFinishing) {
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 }

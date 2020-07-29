@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
 
@@ -27,6 +28,14 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         if (!findNavController(R.id.homeFragment).navigateUp()) finish()
         return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (isFinishing) {
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
 }
