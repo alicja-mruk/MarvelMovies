@@ -55,7 +55,9 @@ class FavouritesFragment : Fragment() {
     private fun observeLiveData() {
 
         viewModel.favouritesMovies.observe(viewLifecycleOwner, Observer {
-            adapter?.setData(it)
+            if(it.isNotEmpty()){
+                adapter?.setData(it)
+            }
         })
 
         viewModel.favouritesCallbackState.observe(viewLifecycleOwner, Observer { state ->
@@ -115,6 +117,7 @@ class FavouritesFragment : Fragment() {
         favourites_grid_recycler_view.visibility = View.GONE
         empty_favourite_list.visibility = View.VISIBLE
         error_img.visibility = View.GONE
+        hideLoading()
     }
 
     private fun showOnFailure() {

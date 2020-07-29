@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.moodup.movies.ui.favourites.SettingsFragment"
+        android:name="com.moodup.movies.ui.configuration.SettingsFragment"
         android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment2_to_homeFragment"

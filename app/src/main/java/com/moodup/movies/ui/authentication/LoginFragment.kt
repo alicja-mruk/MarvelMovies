@@ -2,6 +2,7 @@ package com.moodup.movies.ui.authentication
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.movies.R
-import com.moodup.movies.repository.delegators.StartActivityHelper
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.ui.MainActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
@@ -50,7 +51,11 @@ class LoginFragment : Fragment() {
         }
 
         forgot_password_btn.setOnClickListener {
-            //todo : nav controller to change password fragment
+            findNavController().navigate(R.id.action_authNavFragment_to_forgotPasswordFragment)
+        }
+
+        login_signup_btn.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
 
@@ -66,19 +71,9 @@ class LoginFragment : Fragment() {
                 AuthLoginState.ON_LOGIN_FAILURE -> {
                     onLoginFailure()
                 }
-
-                AuthLoginState.ON_ALREADY_LOGGED_IN -> {
-                    context?.let { startMainActivity(it) }
-                }
             }
 
         })
-
-    }
-
-    private fun startMainActivity(context: Context) {
-
-        StartActivityHelper(context, MainActivity::class.java).startActivityWithClearTaskFlag()
 
     }
 
@@ -90,12 +85,8 @@ class LoginFragment : Fragment() {
             Toast.LENGTH_LONG
         ).show()
 
-        context?.let {
-            StartActivityHelper(
-                it,
-                MainActivity::class.java
-            ).startActivityWithClearTaskFlag()
-        }
+        startActivity(Intent(activity, MainActivity::class.java))
+
     }
 
     private fun onLoginFailure() {

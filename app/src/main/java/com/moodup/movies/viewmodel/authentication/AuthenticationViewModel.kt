@@ -8,13 +8,18 @@ import com.moodup.movies.repository.firebase.FirebaseAuthLoginHelper
 import com.moodup.movies.repository.firebase.FirebaseAuthRegisterHelper
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.state.AuthRegisterState
+import com.moodup.movies.state.LogoutState
+import com.moodup.movies.state.ResetPasswordState
 
 
 class AuthenticationViewModel : ViewModel() {
     var authenticationRegisterState = MutableLiveData<AuthRegisterState>()
     var authenticationLoginState = MutableLiveData<AuthLoginState>()
+    val resetPasswordState = MutableLiveData<ResetPasswordState>()
+    val logoutState = MutableLiveData<LogoutState>()
     val firebaseLoginHelper = FirebaseAuthLoginHelper()
     val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
+
 
 
     val observerLoginState = Observer<AuthLoginState> { loginState ->
@@ -27,7 +32,6 @@ class AuthenticationViewModel : ViewModel() {
 
 
     init {
-        checkIfUserLoggedIn()
         firebaseLoginHelper.authStateLoginLiveData.observeForever(observerLoginState)
         firebaseRegisterHelper.authStateRegisterLiveData.observeForever(observerRegisterState)
     }
@@ -60,15 +64,32 @@ class AuthenticationViewModel : ViewModel() {
 
     }
 
-    private fun checkIfUserLoggedIn() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        if (userId != null) {
-            authenticationLoginState.postValue(AuthLoginState.ON_ALREADY_LOGGED_IN)
+    fun resetPassword(email: String) {
+        if(isEmailEmpty(email)){
+            resetPasswordState.postValue(ResetPasswordState.EMPTY_EMAIL)
+        }else{
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        resetPasswordState.postValue(ResetPasswordState.RESET_SUCCESS)
+                    }else{
+                        resetPasswordState.postValue(ResetPasswordState.RESET_FAILURE)
+                    }
+                }
         }
+
+    }
+
+    fun logout(){
+        FirebaseAuth.getInstance().signOut()
+        logoutState.postValue(LogoutState.LOGOUT_SUCCESS)
     }
 
     private fun isEmailOrPasswordEmpty(email: String, password: String): Boolean {
         return email.isEmpty() || password.isEmpty()
     }
 
+    private fun isEmailEmpty(email : String) : Boolean{
+        return email.isEmpty()
+    }
 }
