@@ -52,9 +52,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): ViewModel() 
                 val updatedMovieList = ArrayList(currentMovieList)
                 updatedMovieList.addAll(movies)
                 movieLiveData.postValue(updatedMovieList)
-
             }
-
         }
     }
 

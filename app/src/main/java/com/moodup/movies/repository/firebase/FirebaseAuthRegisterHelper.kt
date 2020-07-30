@@ -3,9 +3,10 @@ package com.moodup.movies.repository.firebase
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.moodup.movies.state.AuthRegisterState
+import org.koin.core.KoinComponent
 
 
-class FirebaseAuthRegisterHelper(){
+class FirebaseAuthRegisterHelper: KoinComponent{
 
     var authStateRegisterLiveData = MutableLiveData<AuthRegisterState>()
 

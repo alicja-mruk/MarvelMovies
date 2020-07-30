@@ -22,7 +22,7 @@ class DetailsViewModel : ViewModel() {
 
     fun checkIfMovieIsInDatabase() {
 
-        userId?.let{
+        userId?.let {
             val docRef = db.collection("favourites").document(userId)
                 .collection("movies").document(movie?.id.toString())
 
@@ -39,7 +39,7 @@ class DetailsViewModel : ViewModel() {
         }
     }
 
-    private fun addToDatabase() {
+    fun addToDatabase() {
 
         val movieItem = hashMapOf(
             "id" to movie?.id,
@@ -63,7 +63,7 @@ class DetailsViewModel : ViewModel() {
             }
     }
 
-    private fun removeFromDatabase() {
+    fun removeFromDatabase() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -82,7 +82,7 @@ class DetailsViewModel : ViewModel() {
             }
     }
 
-    private fun addOrRemoveMovieFromDatabase() {
+    fun addOrRemoveMovieFromDatabase() {
         val docRef = userId?.let {
             db.collection("favourites").document(it).collection("movies")
                 .document(movie?.id.toString())
@@ -102,7 +102,7 @@ class DetailsViewModel : ViewModel() {
 
     }
 
-    private fun isDocumentExistsInDatabase(task : Task<DocumentSnapshot>) : Boolean{
+    private fun isDocumentExistsInDatabase(task: Task<DocumentSnapshot>): Boolean {
         val document: DocumentSnapshot = task.result as DocumentSnapshot
         return document.exists()
     }
@@ -114,7 +114,7 @@ class DetailsViewModel : ViewModel() {
         }
         docRef?.get()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-               if (isDocumentExistsInDatabase(task)) {
+                if (isDocumentExistsInDatabase(task)) {
                     isMoviePresent.postValue(true)
                 } else {
                     isMoviePresent.postValue(false)
