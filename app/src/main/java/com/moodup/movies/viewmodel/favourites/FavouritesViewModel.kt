@@ -55,7 +55,7 @@ class FavouritesViewModel : ViewModel() {
 
         val dbRef = db.collection("favourites").document(userId)
             .collection("movies")
-            .document(movie?.id.toString())
+            .document(movie.id.toString())
 
         dbRef.delete()
             .addOnSuccessListener {

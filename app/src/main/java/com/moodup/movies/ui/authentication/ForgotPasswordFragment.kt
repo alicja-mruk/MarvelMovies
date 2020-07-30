@@ -48,7 +48,7 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel?.resetPasswordState?.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.resetPasswordState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 ResetPasswordState.RESET_SUCCESS -> {
                     resetPasswordSuccess()
@@ -58,6 +58,9 @@ class ForgotPasswordFragment : Fragment() {
                 }
                 ResetPasswordState.EMPTY_EMAIL -> {
                     emptyEmail()
+                }
+                else->{
+
                 }
             }
         })

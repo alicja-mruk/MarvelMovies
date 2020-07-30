@@ -20,9 +20,9 @@ class DetailsFragment : Fragment() {
     companion object {
         const val MOVIE_KEY = "MOVIE_KEY"
     }
-    
-    private lateinit var binding : FragmentDetailsBinding
-    private val viewModel:DetailsViewModel by viewModel()
+
+    private lateinit var binding: FragmentDetailsBinding
+    private val viewModel: DetailsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,10 +55,15 @@ class DetailsFragment : Fragment() {
 
     private fun setDataIntoFields(movie: Movie) {
 
-        binding.movieTitle.text = if(movie.title == null || movie.title.isEmpty()) getString(R.string.no_title) else  movie.title
-        binding.movieDescription.text = if(movie.description ==null || movie.description.isEmpty()) getString(R.string.no_description) else movie.description
-        binding.moviePageCount.text =  if(movie.pageCount == null || movie.pageCount.toString().isEmpty()) getString(R.string.no_page_count) else movie.pageCount.toString()
-        binding.movieFormat.text = if(movie.format == null || movie.format.isEmpty()) getString(R.string.no_format) else movie.format
+        binding.movieTitle.text =
+            if (movie.title == null || movie.title.isEmpty()) getString(R.string.no_title) else movie.title
+        binding.movieDescription.text =
+            if (movie.description == null || movie.description.isEmpty()) getString(R.string.no_description) else movie.description
+        binding.moviePageCount.text = if (movie.pageCount == null || movie.pageCount.toString()
+                .isEmpty()
+        ) getString(R.string.no_page_count) else movie.pageCount.toString()
+        binding.movieFormat.text =
+            if (movie.format == null || movie.format.isEmpty()) getString(R.string.no_format) else movie.format
 
 
         Glide.with(this)
@@ -67,12 +72,12 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel.isMoviePresent.observe(viewLifecycleOwner, Observer { buttonState->
-            when(buttonState){
-                true->{
+        viewModel.isMoviePresent.observe(viewLifecycleOwner, Observer { buttonState ->
+            when (buttonState) {
+                true -> {
                     disableAddToFavouritesButton()
                 }
-                false->{
+                false -> {
                     enableAddToFavouritesButton()
                 }
             }
@@ -93,6 +98,9 @@ class DetailsFragment : Fragment() {
                 AddedToDatabaseState.NO_DOCUMENT -> {
                     showNoDocumentMessage()
                 }
+                else -> {
+
+                }
 
             }
         })
@@ -100,14 +108,17 @@ class DetailsFragment : Fragment() {
 
     }
 
-    private fun enableAddToFavouritesButton(){
+    private fun enableAddToFavouritesButton() {
         binding.addToFavouritesBtn.text = context?.resources?.getString(R.string.add_to_favourites)
-        context?.resources?.getColor(R.color.green)?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
+        context?.resources?.getColor(R.color.green)
+            ?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
     }
 
-    private fun disableAddToFavouritesButton(){
-        binding.addToFavouritesBtn.text = context?.resources?.getString(R.string.remove_from_favourites)
-        context?.resources?.getColor(R.color.red)?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
+    private fun disableAddToFavouritesButton() {
+        binding.addToFavouritesBtn.text =
+            context?.resources?.getString(R.string.remove_from_favourites)
+        context?.resources?.getColor(R.color.red)
+            ?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
     }
 
 
