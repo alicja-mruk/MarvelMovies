@@ -22,10 +22,10 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import java.util.concurrent.TimeUnit
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private val viewModel : HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModel()
     private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
@@ -64,7 +64,10 @@ class HomeFragment : Fragment(){
 
                         if (it.checkIfThereIsScrollingPossible(totalItemCount)) {
                             adapter?.showFooterProgressBar()
-                            it.getMovies(totalItemCount + 1, binding.movieSearchview.query.toString())
+                            it.getMovies(
+                                totalItemCount + 1,
+                                binding.movieSearchview.query.toString()
+                            )
                         }
                     }
                 }
@@ -130,6 +133,9 @@ class HomeFragment : Fragment(){
                 UIState.INITIALIZED -> {
                     viewModel.UIstateLiveData.postValue(UIState.LOADING)
                     viewModel.getMovies(0, "")
+                }
+                else -> {
+
                 }
             }
         })

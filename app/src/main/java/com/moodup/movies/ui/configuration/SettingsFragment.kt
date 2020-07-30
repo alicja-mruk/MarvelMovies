@@ -19,7 +19,6 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: AuthenticationViewModel by viewModel()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +40,9 @@ class SettingsFragment : Fragment() {
             when (state) {
                 LogoutState.LOGOUT_SUCCESS -> {
                     logoutSuccess()
+                }
+                else -> {
+
                 }
             }
         })

@@ -66,6 +66,10 @@ class LoginFragment : Fragment() {
                 AuthLoginState.ON_LOGIN_FAILURE -> {
                     onLoginFailure()
                 }
+                else->{
+                    
+                }
+            
             }
 
         })

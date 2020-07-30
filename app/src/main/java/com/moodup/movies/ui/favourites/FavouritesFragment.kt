@@ -76,6 +76,9 @@ class FavouritesFragment : Fragment() {
                 FavouritesCallbackState.LOADING -> {
                     showLoading()
                 }
+                else->{
+                    
+                }
             }
         })
     }
@@ -84,11 +87,11 @@ class FavouritesFragment : Fragment() {
         val builder = context?.let { AlertDialog.Builder(it) }
         builder?.setTitle(context?.resources?.getString(R.string.dialog_title))
 
-        builder?.setPositiveButton(context?.resources?.getString(R.string.remove_yes)) { dialog, which ->
+        builder?.setPositiveButton(context?.resources?.getString(R.string.remove_yes)) { _, _ ->
             viewModel.removeFromFavourite(movie)
         }
 
-        builder?.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder?.setNegativeButton(android.R.string.cancel) { _, _ ->
             showCancelledMessage()
         }
         builder?.show()

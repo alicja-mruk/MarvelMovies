@@ -19,7 +19,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.example.movies"
+        applicationId "com.moodup.movies"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -29,15 +29,36 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
 
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+        staging {
+            dimension "app"
+            applicationId "com.moodup.movies.staging"
+            versionName "1.0"
+            versionCode 1
+            buildConfigField 'String', 'BASE_URL', '"https://gateway.marvel.com/"'
+            buildConfigField 'String', 'API_KEY', '"3d3ce5daa8ec0f7c17afc52bb68f15f7"'
+            buildConfigField 'String', 'HASH', '"a45bdb0bf57b06e72ad4c2c5854e2843"'
+            signingConfig signingConfigs.debug
+            targetSdkVersion 30
+            versionNameSuffix 'staging'
+            minSdkVersion 21
+            multiDexEnabled true
+        }
+        production {
+            dimension "app"
+            applicationId "com.moodup.movies.production"
+            versionName "1.0"
+            versionCode 1
+            buildConfigField 'String', 'BASE_URL', '"https://gateway.marvel.com/"'
+            buildConfigField 'String', 'API_KEY', '"3d3ce5daa8ec0f7c17afc52bb68f15f7"'
+            buildConfigField 'String', 'HASH', '"a45bdb0bf57b06e72ad4c2c5854e2843"'
+        }
     }
 
 }
@@ -63,9 +84,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.3.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0' //Glide
@@ -89,13 +110,13 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:1.0.1'
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.13"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     implementation "com.jakewharton.rxbinding2:rxbinding:2.2.0"
-    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0"
+    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -107,14 +128,14 @@ dependencies {
     def koin_version = '2.1.6'
 
 
-        // Just Koin
-        implementation "org.koin:koin-android:$koin_version"
+    // Just Koin
+    implementation "org.koin:koin-android:$koin_version"
 
-        // Support for Android scopes
-        implementation "org.koin:koin-androidx-scope:$koin_version"
+    // Support for Android scopes
+    implementation "org.koin:koin-androidx-scope:$koin_version"
 
-        // Support for Android ViewModels
-        implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-    }
+    // Support for Android ViewModels
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+}
 
 

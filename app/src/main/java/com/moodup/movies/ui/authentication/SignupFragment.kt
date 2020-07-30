@@ -53,7 +53,9 @@ class SignupFragment : Fragment(){
                 }
                 AuthRegisterState.ON_REGISTER_FAILURE->{
                     onRegisterFailure()
-                }
+                }else->{
+
+            }
             }
         })
     }
