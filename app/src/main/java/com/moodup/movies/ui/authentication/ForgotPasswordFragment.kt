@@ -11,29 +11,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movies.R
+import com.example.movies.databinding.FragmentForgotPasswordBinding
 import com.moodup.movies.state.ResetPasswordState
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
-import kotlinx.android.synthetic.main.fragment_forgot_password.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ForgotPasswordFragment : Fragment() {
-    private var viewModel: AuthenticationViewModel? = null
+    private lateinit var binding : FragmentForgotPasswordBinding
+    private val viewModel: AuthenticationViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
-        }
 
         setOnClickListeners()
         observeLiveData()
@@ -42,9 +40,9 @@ class ForgotPasswordFragment : Fragment() {
 
     private fun setOnClickListeners() {
 
-        reset_password_btn.setOnClickListener {
-            val email = resetPassword_email.text.toString()
-            viewModel?.resetPassword(email)
+        binding.resetPasswordBtn.setOnClickListener {
+            val email = binding.resetPasswordEmail.text.toString()
+            viewModel.resetPassword(email)
         }
 
     }

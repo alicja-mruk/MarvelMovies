@@ -7,22 +7,24 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movies.R
+import com.example.movies.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment))
         val navController = findNavController(R.id.homeFragment)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        bottom_nav_menu.setupWithNavController(navController)
+        binding.bottomNavMenu.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

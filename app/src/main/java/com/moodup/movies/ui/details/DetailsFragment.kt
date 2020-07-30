@@ -7,28 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movies.R
+import com.example.movies.databinding.FragmentDetailsBinding
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.AddedToDatabaseState
 import com.moodup.movies.viewmodel.details.DetailsViewModel
-import kotlinx.android.synthetic.main.fragment_details.*
-import kotlinx.android.synthetic.main.fragment_details.movie_title
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
+
     companion object {
         const val MOVIE_KEY = "MOVIE_KEY"
     }
-
-    private var viewModel: DetailsViewModel? = null
+    
+    private lateinit var binding : FragmentDetailsBinding
+    private val viewModel:DetailsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,41 +38,36 @@ class DetailsFragment : Fragment() {
         val movie = arguments?.getSerializable(MOVIE_KEY)
         setDataIntoFields(movie as Movie)
 
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(DetailsViewModel::class.java)
-        }
-
-        viewModel?.movie = movie
-        viewModel?.isMovieInDataBase()
+        viewModel.movie = movie
+        viewModel.isMovieInDataBase()
         observeLiveData()
 
-        add_to_favourites_btn.setOnClickListener {
-            viewModel?.checkIfMovieIsInDatabase()
+        binding.addToFavouritesBtn.setOnClickListener {
+            viewModel.checkIfMovieIsInDatabase()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        viewModel?.isMoviePresent?.postValue(false)
+        viewModel.isMoviePresent.postValue(false)
 
     }
 
     private fun setDataIntoFields(movie: Movie) {
 
-        movie_title.text = if(movie.title == null || movie.title.isEmpty()) getString(R.string.no_title) else  movie.title
-        movie_description.text = if(movie.description ==null || movie.description.isEmpty()) getString(R.string.no_description) else movie.description
-        movie_page_count.text =  if(movie.pageCount == null || movie.pageCount.toString().isEmpty()) getString(R.string.no_page_count) else movie.pageCount.toString()
-        movie_format.text = if(movie.format == null || movie.format.isEmpty()) getString(R.string.no_format) else movie.format
+        binding.movieTitle.text = if(movie.title == null || movie.title.isEmpty()) getString(R.string.no_title) else  movie.title
+        binding.movieDescription.text = if(movie.description ==null || movie.description.isEmpty()) getString(R.string.no_description) else movie.description
+        binding.moviePageCount.text =  if(movie.pageCount == null || movie.pageCount.toString().isEmpty()) getString(R.string.no_page_count) else movie.pageCount.toString()
+        binding.movieFormat.text = if(movie.format == null || movie.format.isEmpty()) getString(R.string.no_format) else movie.format
 
 
         Glide.with(this)
             .load("${movie.thumbnail.path}.${movie.thumbnail.extension}")
-            .into(movie_picture_details)
+            .into(binding.moviePictureDetails)
     }
 
     private fun observeLiveData() {
-        viewModel?.isMoviePresent?.observe(viewLifecycleOwner, Observer { buttonState->
+        viewModel.isMoviePresent.observe(viewLifecycleOwner, Observer { buttonState->
             when(buttonState){
                 true->{
                     disableAddToFavouritesButton()
@@ -81,7 +78,7 @@ class DetailsFragment : Fragment() {
             }
         })
 
-        viewModel?.databaseState?.observe(viewLifecycleOwner, Observer { database ->
+        viewModel.databaseState.observe(viewLifecycleOwner, Observer { database ->
             when (database) {
                 AddedToDatabaseState.ADDED_SUCCESS -> {
                     disableAddToFavouritesButton()
@@ -104,13 +101,13 @@ class DetailsFragment : Fragment() {
     }
 
     private fun enableAddToFavouritesButton(){
-        add_to_favourites_btn.text = context?.resources?.getString(R.string.add_to_favourites)
-        context?.resources?.getColor(R.color.green)?.let { add_to_favourites_btn.setBackgroundColor(it) }
+        binding.addToFavouritesBtn.text = context?.resources?.getString(R.string.add_to_favourites)
+        context?.resources?.getColor(R.color.green)?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
     }
 
     private fun disableAddToFavouritesButton(){
-        add_to_favourites_btn.text = context?.resources?.getString(R.string.remove_from_favourites)
-        context?.resources?.getColor(R.color.red)?.let { add_to_favourites_btn.setBackgroundColor(it) }
+        binding.addToFavouritesBtn.text = context?.resources?.getString(R.string.remove_from_favourites)
+        context?.resources?.getColor(R.color.red)?.let { binding.addToFavouritesBtn.setBackgroundColor(it) }
     }
 
 

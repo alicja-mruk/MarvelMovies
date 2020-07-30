@@ -8,39 +8,36 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
+import com.example.movies.databinding.FragmentFavouritesBinding
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.FavouritesCallbackState
 import com.moodup.movies.ui.favourites.adapter.FavouritesAdapter
 import com.moodup.movies.viewmodel.favourites.FavouritesViewModel
-import kotlinx.android.synthetic.main.fragment_favourites.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavouritesFragment : Fragment() {
+    private lateinit var binding: FragmentFavouritesBinding
     private var adapter: FavouritesAdapter? = null
-    private lateinit var viewModel: FavouritesViewModel
+    private val viewModel : FavouritesViewModel by viewModel()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_favourites, container, false)
+        binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(FavouritesViewModel::class.java)
-        }
-
-        favourites_grid_recycler_view.layoutManager = GridLayoutManager(context, 2)
+        binding.favouritesGridRecyclerView.layoutManager = GridLayoutManager(context, 2)
         adapter = FavouritesAdapter()
-        favourites_grid_recycler_view.adapter = adapter
+        binding.favouritesGridRecyclerView.adapter = adapter
 
         adapter?.let {
             it.onItemClick = { movie ->
@@ -105,30 +102,30 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun showLoading() {
-        favourites_progressBar.visibility = View.VISIBLE
+        binding.favouritesProgressBar.visibility = View.VISIBLE
     }
 
     private fun hideLoading() {
-        favourites_progressBar.visibility = View.GONE
+        binding.favouritesProgressBar.visibility = View.GONE
     }
 
     private fun showOnEmptyList() {
-        favourites_grid_recycler_view.visibility = View.GONE
-        empty_favourite_list.visibility = View.VISIBLE
-        error_img.visibility = View.GONE
+        binding.favouritesGridRecyclerView.visibility = View.GONE
+        binding.emptyFavouriteList.visibility = View.VISIBLE
+        binding.errorImg.visibility = View.GONE
         hideLoading()
     }
 
     private fun showOnFailure() {
-        favourites_grid_recycler_view.visibility = View.GONE
-        empty_favourite_list.visibility = View.GONE
-        error_img.visibility = View.VISIBLE
+        binding.favouritesGridRecyclerView.visibility = View.GONE
+        binding.emptyFavouriteList.visibility = View.GONE
+        binding.errorImg.visibility = View.VISIBLE
     }
 
     private fun onSuccess() {
-        favourites_grid_recycler_view.visibility = View.VISIBLE
-        empty_favourite_list.visibility = View.GONE
-        error_img.visibility = View.GONE
+        binding.favouritesGridRecyclerView.visibility = View.VISIBLE
+        binding.emptyFavouriteList.visibility = View.GONE
+        binding.errorImg.visibility = View.GONE
         hideLoading()
     }
 }

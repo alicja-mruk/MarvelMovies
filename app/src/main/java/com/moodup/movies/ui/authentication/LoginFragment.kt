@@ -1,7 +1,6 @@
 package com.moodup.movies.ui.authentication
 
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,33 +9,29 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movies.R
+import com.example.movies.databinding.FragmentLoginBinding
 import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.ui.MainActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
-import kotlinx.android.synthetic.main.fragment_login.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginFragment : Fragment() {
-    private var viewModel: AuthenticationViewModel? = null
+    private lateinit var binding: FragmentLoginBinding
+    private val viewModel: AuthenticationViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
-        }
 
         setOnClickListeners()
         observeLiveData()
@@ -44,23 +39,23 @@ class LoginFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        login_btn.setOnClickListener {
-            val email = email_login_text.text.toString()
-            val password = password_login_text.text.toString()
-            viewModel?.login(email, password)
+        binding.loginBtn.setOnClickListener {
+            val email = binding.emailLoginText.text.toString()
+            val password = binding.passwordLoginText.text.toString()
+            viewModel.login(email, password)
         }
 
-        forgot_password_btn.setOnClickListener {
+        binding.forgotPasswordBtn.setOnClickListener {
             findNavController().navigate(R.id.action_authNavFragment_to_forgotPasswordFragment)
         }
 
-        login_signup_btn.setOnClickListener {
+        binding.loginSignupBtn.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
 
     private fun observeLiveData() {
-        viewModel?.authenticationLoginState?.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.authenticationLoginState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 AuthLoginState.EMPTY_EMAIL_OR_PASSWORD_FIELD -> {
                     onEmptyEmailOrPasswordField()
@@ -78,7 +73,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun onLoginSuccess() {
-
         Toast.makeText(
             context,
             context?.resources?.getString(R.string.login_success),

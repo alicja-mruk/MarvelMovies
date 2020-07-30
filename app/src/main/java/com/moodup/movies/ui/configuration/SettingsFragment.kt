@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.movies.R
+import com.example.movies.databinding.FragmentSettingsBinding
 import com.moodup.movies.state.LogoutState
 import com.moodup.movies.ui.authentication.AuthenticationActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
-import kotlinx.android.synthetic.main.fragment_settings.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
-    private lateinit var viewModel: AuthenticationViewModel
+    private lateinit var binding: FragmentSettingsBinding
+    private val viewModel: AuthenticationViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -24,24 +25,15 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        binding.viewModel = viewModel
 
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
-        }
-
-        setOnClickListeners()
         observeLiveData()
-    }
-
-    private fun setOnClickListeners() {
-        logout_btn.setOnClickListener {
-            viewModel.logout()
-        }
     }
 
     private fun observeLiveData() {
