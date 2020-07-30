@@ -8,18 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.movies.R
-import com.example.movies.databinding.FragmentHomeBinding
 import com.example.movies.databinding.FragmentSettingsBinding
 import com.moodup.movies.state.LogoutState
 import com.moodup.movies.ui.authentication.AuthenticationActivity
 import com.moodup.movies.viewmodel.authentication.AuthenticationViewModel
-import kotlinx.android.synthetic.main.fragment_settings.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
-    private lateinit var viewModel: AuthenticationViewModel
+    private val viewModel: AuthenticationViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -33,11 +31,6 @@ class SettingsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(AuthenticationViewModel::class.java)
-        }
-
         binding.viewModel = viewModel
 
         observeLiveData()

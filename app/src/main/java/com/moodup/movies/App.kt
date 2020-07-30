@@ -14,8 +14,10 @@ class App : Application(){
     private fun initKoin(){
         startKoin {
             androidContext(this@App)
-            modules(listOf(repositoryModule, retrofitModule, homeViewModelModule, favouritesViewModelModule,
-            detailsViewModelModule, authenticationViewModelModule))
+            modules(moduleList)
         }
     }
+
+    private val moduleList = listOf(repositoryModule, retrofitModule, homeViewModelModule, favouritesViewModelModule,
+        detailsViewModelModule, authenticationViewModelModule)
 }

@@ -8,22 +8,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
 import com.example.movies.databinding.FragmentFavouritesBinding
-import com.example.movies.databinding.FragmentHomeBinding
 import com.moodup.movies.model.Movie
 import com.moodup.movies.state.FavouritesCallbackState
 import com.moodup.movies.ui.favourites.adapter.FavouritesAdapter
 import com.moodup.movies.viewmodel.favourites.FavouritesViewModel
-import kotlinx.android.synthetic.main.fragment_favourites.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
     private var adapter: FavouritesAdapter? = null
-    private lateinit var viewModel: FavouritesViewModel
+    private val viewModel : FavouritesViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -36,10 +34,6 @@ class FavouritesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        activity?.let {
-            viewModel = ViewModelProvider(it).get(FavouritesViewModel::class.java)
-        }
 
         binding.favouritesGridRecyclerView.layoutManager = GridLayoutManager(context, 2)
         adapter = FavouritesAdapter()

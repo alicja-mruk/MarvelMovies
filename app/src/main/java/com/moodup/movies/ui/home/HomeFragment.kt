@@ -19,14 +19,13 @@ import com.moodup.movies.ui.details.DetailsFragment.Companion.MOVIE_KEY
 import com.moodup.movies.ui.home.adapter.HomeAdapter
 import com.moodup.movies.viewmodel.home.HomeViewModel
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(){
     private lateinit var binding: FragmentHomeBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private val viewModel by inject<HomeViewModel>()
+    private val viewModel : HomeViewModel by viewModel()
     private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
@@ -59,7 +58,7 @@ class HomeFragment : Fragment(){
                 val totalItemCount: Int = linearLayoutManager.itemCount
                 val lastVisibleItem: Int = linearLayoutManager.findLastVisibleItemPosition()
 
-                viewModel?.let {
+                viewModel.let {
                     if (!it.isDataLoading && lastVisibleItem == totalItemCount - 1) {
                         it.isDataLoading = true
 
@@ -80,12 +79,12 @@ class HomeFragment : Fragment(){
         binding.movieSearchview.queryTextChanges().skip(2)
             .map { it.toString() }
             .doOnNext {
-                viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
+                viewModel.UIstateLiveData.postValue(UIState.LOADING)
             }
             .debounce(800, TimeUnit.MILLISECONDS)
             .subscribe {
                 if (binding.movieSearchview.hasFocus()) {
-                    viewModel?.onSearchQueryChanged(it)
+                    viewModel.onSearchQueryChanged(it)
                 }
             }
 
@@ -93,7 +92,7 @@ class HomeFragment : Fragment(){
 
     private fun setUpAdapter() {
 
-        viewModel?.let { viewModel ->
+        viewModel.let { viewModel ->
             adapter = HomeAdapter(viewModel, this)
             binding.moviesRecyclerView.adapter = adapter
             binding.moviesRecyclerView.addItemDecoration(
@@ -113,7 +112,7 @@ class HomeFragment : Fragment(){
     }
 
     private fun observeLiveData() {
-        viewModel?.UIstateLiveData?.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.UIstateLiveData.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
 
                 UIState.LOADING -> {
@@ -129,8 +128,8 @@ class HomeFragment : Fragment(){
                     showEmptyResults()
                 }
                 UIState.INITIALIZED -> {
-                    viewModel?.UIstateLiveData?.postValue(UIState.LOADING)
-                    viewModel?.getMovies(0, "")
+                    viewModel.UIstateLiveData.postValue(UIState.LOADING)
+                    viewModel.getMovies(0, "")
                 }
             }
         })
