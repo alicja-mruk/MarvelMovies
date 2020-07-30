@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.moodup.movies.state.AuthLoginState
+import org.koin.core.KoinComponent
 
-class FirebaseAuthLoginHelper() {
+class FirebaseAuthLoginHelper : KoinComponent{
 
     var authStateLoginLiveData = MutableLiveData<AuthLoginState>()
 

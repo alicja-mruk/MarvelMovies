@@ -19,5 +19,5 @@ class App : Application(){
     }
 
     private val moduleList = listOf(repositoryModule, retrofitModule, homeViewModelModule, favouritesViewModelModule,
-        detailsViewModelModule, authenticationViewModelModule)
+        detailsViewModelModule, authenticationViewModelModule, loginModule, registerModule)
 }

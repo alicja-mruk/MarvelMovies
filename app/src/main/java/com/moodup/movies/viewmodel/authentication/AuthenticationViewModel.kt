@@ -10,6 +10,7 @@ import com.moodup.movies.state.AuthLoginState
 import com.moodup.movies.state.AuthRegisterState
 import com.moodup.movies.state.LogoutState
 import com.moodup.movies.state.ResetPasswordState
+import org.koin.java.KoinJavaComponent.inject
 
 
 class AuthenticationViewModel : ViewModel() {
@@ -17,8 +18,8 @@ class AuthenticationViewModel : ViewModel() {
     var authenticationLoginState = MutableLiveData<AuthLoginState>()
     val resetPasswordState = MutableLiveData<ResetPasswordState>()
     val logoutState = MutableLiveData<LogoutState>()
-    val firebaseLoginHelper = FirebaseAuthLoginHelper()
-    val firebaseRegisterHelper = FirebaseAuthRegisterHelper()
+    val firebaseLoginHelper by inject(FirebaseAuthLoginHelper::class.java)
+    val firebaseRegisterHelper by inject (FirebaseAuthRegisterHelper::class.java)
 
 
     val observerLoginState = Observer<AuthLoginState> { loginState ->
@@ -84,7 +85,7 @@ class AuthenticationViewModel : ViewModel() {
         logoutState.postValue(LogoutState.LOGOUT_SUCCESS)
     }
 
-    private fun isEmailOrPasswordEmpty(email: String, password: String): Boolean {
+    fun isEmailOrPasswordEmpty(email: String, password: String): Boolean {
         return email.isEmpty() || password.isEmpty()
     }
 
