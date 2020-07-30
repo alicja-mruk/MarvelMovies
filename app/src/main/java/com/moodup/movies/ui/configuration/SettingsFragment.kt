@@ -54,7 +54,16 @@ class SettingsFragment : Fragment() {
             context?.resources?.getString(R.string.logout_success),
             Toast.LENGTH_SHORT
         ).show()
+        startAuthActivity()
+    }
 
-        startActivity(Intent(activity, AuthenticationActivity::class.java))
+    private fun startAuthActivity() {
+
+        val i = Intent(context, AuthenticationActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        i.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+        startActivity(i)
+        requireActivity().finish()
     }
 }
