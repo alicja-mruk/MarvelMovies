@@ -46,4 +46,15 @@
     <string name="logout_success">Successfully logged out</string>
     <string name="logout_failure">Logout failure</string>
     <string name="change_password_button">Change Password</string>
+    <string name="login_with_phone">Log in with phone</string>
+    <string name="phone_number">Phone number</string>
+    <string name="verification_code">Verification code</string>
+    <string name="enter_phone_number">Please enter your phone number</string>
+    <string name="send_verification_code">Send verification code</string>
+    <string name="enter_verification_code">"Enter verification code "</string>
+    <string name="resend_verification_code">Resend verification code</string>
+    <string name="wrong_confirmation_code">Wrong confirmation code</string>
+    <string name="invalid_request">Invalid request</string>
+    <string name="too_many_requests">Too many requests</string>
+    <string name="prefix">Prefix</string>
 </resources>

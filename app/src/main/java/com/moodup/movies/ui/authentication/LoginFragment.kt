@@ -52,24 +52,27 @@ class LoginFragment : Fragment() {
         binding.loginSignupBtn.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
+        binding.loginWithPhoneBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_authNavFragment_to_loginWithPhoneFragment)
+        }
     }
 
     private fun observeLiveData() {
         viewModel.authenticationLoginState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 AuthLoginState.EMPTY_EMAIL_OR_PASSWORD_FIELD -> {
-                    onEmptyEmailOrPasswordField()
+                    makeToast(context?.resources?.getString(R.string.enter_correct_data))
                 }
                 AuthLoginState.ON_LOGIN_SUCCESS -> {
                     onLoginSuccess()
                 }
                 AuthLoginState.ON_LOGIN_FAILURE -> {
-                    onLoginFailure()
+                    makeToast(context?.resources?.getString(R.string.login_failure))
                 }
-                else->{
-                    
+                else -> {
+
                 }
-            
+
             }
 
         })
@@ -87,19 +90,8 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun onLoginFailure() {
-        Toast.makeText(
-            context,
-            context?.resources?.getString(R.string.login_failure),
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun makeToast(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun onEmptyEmailOrPasswordField() {
-        Toast.makeText(
-            context,
-            context?.resources?.getString(R.string.enter_correct_data),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
 }
