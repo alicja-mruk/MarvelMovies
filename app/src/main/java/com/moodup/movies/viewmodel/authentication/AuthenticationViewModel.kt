@@ -23,7 +23,6 @@ class AuthenticationViewModel : ViewModel() {
         const val TAG = "PHONE_VERIFICATION"
     }
 
-    val auth = FirebaseAuth.getInstance()
     var verificationId = MutableLiveData<String?>()
     var token = MutableLiveData<String?>()
     var codeMutableLiveData = MutableLiveData<String?>()
@@ -153,7 +152,7 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signInWithCredential(credential)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     phoneAuthMutableLiveData.postValue(AuthPhone.LOGIN_SUCCESS)
