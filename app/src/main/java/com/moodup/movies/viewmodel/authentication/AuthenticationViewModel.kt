@@ -32,15 +32,15 @@ class AuthenticationViewModel : ViewModel() {
     var authenticationLoginState = MutableLiveData<AuthLoginState>()
     val resetPasswordState = MutableLiveData<ResetPasswordState>()
     val logoutState = MutableLiveData<LogoutState>()
-    val firebaseLoginHelper by inject(FirebaseAuthLoginHelper::class.java)
-    val firebaseRegisterHelper by inject(FirebaseAuthRegisterHelper::class.java)
+    private val firebaseLoginHelper by inject(FirebaseAuthLoginHelper::class.java)
+    private val firebaseRegisterHelper by inject(FirebaseAuthRegisterHelper::class.java)
 
 
-    val observerLoginState = Observer<AuthLoginState> { loginState ->
+    private val observerLoginState = Observer<AuthLoginState> { loginState ->
         authenticationLoginState.postValue(loginState)
     }
 
-    val observerRegisterState = Observer<AuthRegisterState> { registerState ->
+    private val observerRegisterState = Observer<AuthRegisterState> { registerState ->
         authenticationRegisterState.postValue(registerState)
     }
 

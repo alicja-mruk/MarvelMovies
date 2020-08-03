@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileOptions {
@@ -135,6 +136,12 @@ dependencies {
     // Support for Android ViewModels
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
+    //crashlytics
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.4.4'
+
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+    
     //tests
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -146,6 +153,8 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.3.1"
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation "io.mockk:mockk:1.10.0"
+
+
 }
 
 
