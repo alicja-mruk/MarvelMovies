@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_authNavFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_authNavFragment_to_loginWithPhoneFragment"
+            app:destination="@id/loginWithPhoneFragment" />
     </fragment>
 
     <fragment
@@ -35,5 +38,9 @@
             android:id="@+id/action_forgotPasswordFragment_to_authNavFragment"
             app:destination="@id/authNavFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginWithPhoneFragment"
+        android:name="com.moodup.movies.ui.authentication.LoginWithPhoneFragment"
+        android:label="LoginWithPhoneFragment" />
 
 </navigation>
