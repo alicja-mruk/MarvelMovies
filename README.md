@@ -1,7 +1,7 @@
 # Marvel Movies
 
 ## Description
-Login/Log out with Firebase Authentication ( email or phone). Home screen constains a list of movies, when clicked, a details fragment is opened. It is possible to add movieto a favourite list and delete it. At the top of the home screen there is a SearchView to search movies filtered by title.
+Login/Log out with Firebase Authentication ( email or phone). Home screen contains a list of movies, when clicked, a details fragment is opened. It is possible to add movieto a favourite list and delete it. At the top of the home screen there is a SearchView to search movies filtered by title.
 
 Bottom Navigation view has 3 availaible pages: Home, Favourites and Settings.
 - Home - Movie List
