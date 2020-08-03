@@ -30,6 +30,8 @@ Bottom Navigation view has 3 availaible pages: Home, Favourites and Settings.
 - [LifeCycle]("https://developer.android.com/jetpack/androidx/releases/lifecycle/")
 - [Koin]("https://github.com/InsertKoinIO/koin/")
 - [Coroutines]("https://github.com/Kotlin/kotlinx.coroutines/)
+- Navigator Component
+- Bottom Navigation View with the use of the Material Design
 
 ## Screenshots
 
