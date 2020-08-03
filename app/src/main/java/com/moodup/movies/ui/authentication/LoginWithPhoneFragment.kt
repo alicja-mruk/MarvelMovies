@@ -38,7 +38,7 @@ class LoginWithPhoneFragment : Fragment() {
 
     private fun setOnClickListeners() {
         binding.sendVerificationCodeBtn.setOnClickListener {
-            val prefix:String = binding.prefix.text.toString()
+            val prefix: String = binding.prefix.text.toString()
             val phoneNumber: String = binding.phoneNumber.text.toString()
             if (phoneNumber.isNotEmpty()) {
                 Log.d("phone", "$prefix $phoneNumber")
@@ -63,7 +63,7 @@ class LoginWithPhoneFragment : Fragment() {
         ).show()
     }
 
-    private fun sendVerificationCode(prefix:String, phoneNumber: String) {
+    private fun sendVerificationCode(prefix: String, phoneNumber: String) {
         viewModel.loginWithPhone(prefix, phoneNumber)
     }
 
@@ -85,7 +85,7 @@ class LoginWithPhoneFragment : Fragment() {
                 AuthPhone.TOO_MANY_REQUESTS -> {
                     makeToast(context?.resources?.getString(R.string.too_many_requests))
                 }
-                AuthPhone.LOGIN_SUCCESS->{
+                AuthPhone.LOGIN_SUCCESS -> {
                     login()
                 }
 
@@ -94,8 +94,8 @@ class LoginWithPhoneFragment : Fragment() {
                 }
             }
         })
-        viewModel.codeMutableLiveData.observe(viewLifecycleOwner, Observer{code->
-            if (code != null) {
+        viewModel.codeMutableLiveData.observe(viewLifecycleOwner, Observer { code ->
+            code?.let{
                 binding.verificationCode.setText(code)
                 viewModel.verifyVerificationCode(code)
             }
@@ -134,7 +134,7 @@ class LoginWithPhoneFragment : Fragment() {
         binding.confirmVerificationCodeBtn.visibility = View.GONE
     }
 
-    private fun login(){
+    private fun login() {
         makeToast(context?.resources?.getString(R.string.login_success))
         startActivity(Intent(activity, MainActivity::class.java))
     }

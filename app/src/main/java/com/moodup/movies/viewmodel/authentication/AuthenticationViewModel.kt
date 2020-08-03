@@ -106,7 +106,7 @@ class AuthenticationViewModel : ViewModel() {
             60,
             TimeUnit.SECONDS,
             TaskExecutors.MAIN_THREAD,
-            callbacks
+            phoneAuthenticationCallback
         )
         phoneAuthMutableLiveData.postValue(AuthPhone.SMS_RECEIVED)
 
@@ -122,7 +122,7 @@ class AuthenticationViewModel : ViewModel() {
     }
 
 
-    private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private val phoneAuthenticationCallback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
             val code = phoneAuthCredential.smsCode
 
