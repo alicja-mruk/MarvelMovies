@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "270835313971-fuau7ruqvic31amd81aa6l80jki7ce5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moodup.movies.production",
+            "certificate_hash": "0988613ffd04266ad0a4db8abf208b0872da78b6"
+          }
+        },
+        {
           "client_id": "270835313971-l71certqn6g7i89igss59hsinkdbi5fe.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -80,6 +88,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "270835313971-4rfrh11qmimpsi3mhesa5pp5jc0r3ubp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moodup.movies.staging",
+            "certificate_hash": "0988613ffd04266ad0a4db8abf208b0872da78b6"
+          }
+        },
         {
           "client_id": "270835313971-l71certqn6g7i89igss59hsinkdbi5fe.apps.googleusercontent.com",
           "client_type": 3

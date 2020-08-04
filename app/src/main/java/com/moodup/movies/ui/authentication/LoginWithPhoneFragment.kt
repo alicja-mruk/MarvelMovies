@@ -3,7 +3,6 @@ package com.moodup.movies.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,6 @@ class LoginWithPhoneFragment : Fragment() {
             val prefix: String = binding.prefix.text.toString()
             val phoneNumber: String = binding.phoneNumber.text.toString()
             if (phoneNumber.isNotEmpty()) {
-                Log.d("phone", "$prefix $phoneNumber")
                 sendVerificationCode(prefix, phoneNumber)
             } else {
                 onEmptyPhoneField()

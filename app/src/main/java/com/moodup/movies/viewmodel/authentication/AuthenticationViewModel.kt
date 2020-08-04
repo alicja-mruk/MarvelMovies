@@ -152,6 +152,7 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -166,8 +167,13 @@ class AuthenticationViewModel : ViewModel() {
     }
 
     fun verifyVerificationCode(code: String) {
-        val credential = PhoneAuthProvider.getCredential(verificationId.value.toString(), code)
-        signInWithPhoneAuthCredential(credential)
+        if(code.isEmpty()){
+            phoneAuthMutableLiveData.postValue(AuthPhone.WRONG_CONFIRMATION_CODE)
+        }else{
+            val credential = PhoneAuthProvider.getCredential(verificationId.value.toString(), code)
+            signInWithPhoneAuthCredential(credential)
+        }
+
     }
 
 
