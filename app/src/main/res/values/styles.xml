@@ -1,14 +1,30 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccentViola</item>
     </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@color/colorAccentViolaNight</item>
+    </style>
+
 
     <style name="AppTheme.Launcher">
     <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <!-- Specific Feed activity theme -->
+    <style name="FeedActivityThemeLight" parent="AppTheme">
+        <item name="android:windowBackground">#ffffff</item>
+    </style>
+    <style name="FeedActivityThemeDark" parent="AppThemeDark">
+        <item name="android:windowBackground">#6A000000</item>
     </style>
 
 </resources>

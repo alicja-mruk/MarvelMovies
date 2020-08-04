@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
     tools:context="com.moodup.movies.ui.authentication.SignupFragment">
 
     <TextView
@@ -18,7 +17,7 @@
         android:layout_marginTop="148dp"
         android:padding="10dp"
         android:text="@string/signup"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -82,7 +81,7 @@
         android:padding="15dp"
         android:text="@string/already_have_account"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"

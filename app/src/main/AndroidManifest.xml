@@ -8,6 +8,7 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="uiMode"
         android:name="com.moodup.movies.App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

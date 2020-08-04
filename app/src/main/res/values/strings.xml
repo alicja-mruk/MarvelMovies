@@ -57,4 +57,5 @@
     <string name="invalid_request">Invalid request</string>
     <string name="too_many_requests">Too many requests</string>
     <string name="prefix">Prefix</string>
+    <string name="darkmode">Dark mode</string>
 </resources>

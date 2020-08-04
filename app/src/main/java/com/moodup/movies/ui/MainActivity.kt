@@ -2,6 +2,7 @@ package com.moodup.movies.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -11,10 +12,12 @@ import com.example.movies.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode())
         super.onCreate(savedInstanceState)
+
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         binding = ActivityMainBinding.inflate(layoutInflater)
         supportActionBar?.hide()
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.bottomNavMenu.setupWithNavController(navController)
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
