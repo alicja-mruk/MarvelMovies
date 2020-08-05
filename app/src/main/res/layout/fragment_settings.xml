@@ -13,7 +13,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/bg_gradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +25,7 @@
         android:layout_marginTop="148dp"
         android:padding="10dp"
         android:text="@string/settings"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -34,25 +33,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/logout_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:background="@drawable/auth_rounded_btn"
-        android:gravity="center"
-        android:letterSpacing="0.2"
-        android:padding="15dp"
-        android:text="@string/logout"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:onClick="@{()->viewModel.logout()}"/>
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/auth_rounded_btn"
+            android:gravity="center"
+            android:letterSpacing="0.2"
+            android:onClick="@{()->viewModel.logout()}"
+            android:padding="15dp"
+            android:text="@string/logout"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/darkmode_switch" />
 
-    <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,6 +66,22 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85"
         app:layout_constraintGuide_begin="392dp" />
+
+        <Switch
+            android:id="@+id/darkmode_switch"
+            android:checked="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:padding="10dp"
+            android:text="@string/darkmode"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

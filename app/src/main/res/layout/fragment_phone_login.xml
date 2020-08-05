@@ -15,7 +15,6 @@
         android:id="@+id/fragment_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient"
         tools:context="com.moodup.movies.ui.authentication.SignupFragment">
 
         <TextView
@@ -27,7 +26,7 @@
             android:padding="10dp"
             android:text="@string/enter_phone_number"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone"
@@ -44,7 +43,7 @@
             android:padding="10dp"
             android:text="@string/enter_verification_code"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone"
@@ -95,7 +94,7 @@
             android:letterSpacing="0.2"
             android:padding="15dp"
             android:text="@string/send_verification_code"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -129,7 +128,7 @@
             android:letterSpacing="0.2"
             android:padding="15dp"
             android:text="@string/login"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"

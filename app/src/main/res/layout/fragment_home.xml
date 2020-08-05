@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/margin_home"
         android:queryHint="@string/search_for_a_movie"
         android:iconifiedByDefault="false"
-        android:background="@android:color/holo_green_light"/>
+        android:background="#cccccc"/>
 
 <androidx.recyclerview.widget.RecyclerView
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
